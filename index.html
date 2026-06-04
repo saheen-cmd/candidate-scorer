@@ -40,7 +40,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
 
-  /* SIDEBAR */
   .sidebar { width: 220px; min-height: 100vh; background: var(--sidebar); display: flex; flex-direction: column; flex-shrink: 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
   .sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
   .sidebar-logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -52,10 +51,8 @@
   .sidebar-item.active { background: rgba(255,255,255,0.12); color: var(--sidebar-a); font-weight: 500; }
   .sidebar-item .icon { font-size: 14px; width: 18px; text-align: center; }
 
-  /* MAIN */
   .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-  /* TOPBAR */
   .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
   .breadcrumb { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
   .breadcrumb span { color: var(--text); font-weight: 500; }
@@ -67,10 +64,8 @@
   .topbar-btn:disabled { opacity: 0.45; cursor: not-allowed; }
   .avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; }
 
-  /* CONTENT */
   .content { padding: 24px 28px 60px; flex: 1; }
 
-  /* PAGE HEADER */
   .page-header { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 18px; box-shadow: var(--shadow); }
   .page-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
   .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 3px; }
@@ -85,7 +80,6 @@
   .tab-item.active { color: var(--text); border-bottom-color: var(--text); }
   .tab-count { background: var(--bg); border: 1px solid var(--border); color: var(--muted); font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; }
 
-  /* CONFIG PANEL */
   .config-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 18px; box-shadow: var(--shadow); overflow: hidden; }
   .config-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
   .config-header h3 { font-size: 14px; font-weight: 600; }
@@ -106,7 +100,7 @@
   .field-hint { font-size: 11px; color: var(--muted2); }
 
   .url-wrap { position: relative; }
-  .url-wrap input { padding-right: 95px; }
+  .url-wrap input { padding-right: 90px; }
   .url-ind { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 500; color: var(--muted2); }
   .url-ind.ok  { color: #15803d; }
   .url-ind.err { color: #dc2626; }
@@ -121,7 +115,6 @@
   .error-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius); padding: 11px 14px; font-size: 13px; color: #dc2626; margin-bottom: 14px; display: none; align-items: flex-start; gap: 7px; }
   .error-box.show { display: flex; }
 
-  /* PROGRESS */
   .progress-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); display: none; }
   .progress-card.show { display: block; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -134,7 +127,6 @@
   .ll.ok   { color: #15803d; }
   .ll.err  { color: #dc2626; }
 
-  /* RESULTS */
   .results-section { display: none; }
   .results-section.show { display: block; }
 
@@ -221,7 +213,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="sidebar-logo-icon">🎯</div>
@@ -247,10 +238,7 @@
   </div>
 </aside>
 
-<!-- MAIN -->
 <div class="main">
-
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="breadcrumb">
       Jobs <span style="color:var(--muted2)">→</span>
@@ -268,10 +256,8 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
-    <!-- PAGE HEADER -->
     <div class="page-header">
       <div class="page-header-top">
         <div>
@@ -293,12 +279,11 @@
       </div>
     </div>
 
-    <!-- CONFIG -->
     <div class="config-panel" id="configPanel">
       <div class="config-header" onclick="toggleConfig()">
         <div>
           <h3>⚙ Scorer Configuration</h3>
-          <p>Enter your Apps Script URL, job shortcode, stages, and job description</p>
+          <p>Enter Apps Script URL, job shortcode, stages, and job description</p>
         </div>
         <div class="config-toggle" id="configToggle">▲ Hide</div>
       </div>
@@ -314,7 +299,7 @@
                 oninput="validateUrl(this.value)" onchange="checkReady()">
               <div class="url-ind" id="urlInd">—</div>
             </div>
-            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone → copy /exec URL</div>
+            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone</div>
           </div>
         </div>
 
@@ -338,7 +323,7 @@
         <div class="fg1">
           <div class="field">
             <label>Job Description</label>
-            <textarea id="jd" placeholder="Paste the full job description here — role overview, key responsibilities, ideal candidate profile, required experience, skills, and non-negotiables. The more detail, the more accurate the AI scoring." onchange="checkReady()"></textarea>
+            <textarea id="jd" placeholder="Paste the full job description here — role overview, key responsibilities, ideal candidate profile, required experience, skills, and non-negotiables." onchange="checkReady()"></textarea>
           </div>
         </div>
 
@@ -349,7 +334,6 @@
       </div>
     </div>
 
-    <!-- PROGRESS -->
     <div class="progress-card" id="progressCard">
       <div class="progress-top">
         <div class="progress-label" id="progressLabel">Initialising…</div>
@@ -359,7 +343,6 @@
       <div class="plog" id="plog"></div>
     </div>
 
-    <!-- RESULTS -->
     <div class="results-section" id="resultsSection">
       <div class="stats-grid" id="statsGrid"></div>
       <div class="table-card">
@@ -480,7 +463,11 @@ function setStatus(text, cls) {
   el.className   = 'status-badge ' + cls;
 }
 
-function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+function unlockUI() {
+  document.getElementById('runBtn').disabled       = false;
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('btnText').textContent   = '▶ Run Scorer';
+}
 
 async function startScoring() {
   hideError();
@@ -498,28 +485,28 @@ async function startScoring() {
   document.getElementById('resultsSection').classList.remove('show');
   document.getElementById('plog').innerHTML           = '';
   setStatus('⏳ Running', 'running');
-  setProgress(0, 0, 'Connecting to Apps Script…');
+  setProgress(0, 100, 'Connecting to Apps Script…');
+
+  log('📡 Fetching and scoring via Apps Script…');
+  log('   Job: ' + jobCode + ' | Stages: ' + stages.join(', '));
 
   try {
-    log('📡 Fetching candidates and scoring via Apps Script…');
-    log('   Job: ' + jobCode + ' | Stages: ' + stages.join(', '));
-
-    setProgress(0, 100, 'Fetching candidates from Workable…');
-
-    // Use GET with payload param to avoid CORS preflight
-    var payload = JSON.stringify({
+    // Use no-cors mode via form-encoded body to bypass preflight
+    var formData = new URLSearchParams();
+    formData.append('payload', JSON.stringify({
       action : 'fetchAndScore',
       jobCode: jobCode,
       stages : stages,
       jd     : jd
+    }));
+
+    var resp = await fetch(gasUrl, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body   : formData.toString()
     });
 
-    var getUrl = gasUrl + '?payload=' + encodeURIComponent(payload);
-    var resp   = await fetch(getUrl);
-
-    if (!resp.ok) {
-      throw new Error('Apps Script returned HTTP ' + resp.status + '. Make sure Web App is deployed with access set to Anyone.');
-    }
+    if (!resp.ok) throw new Error('Apps Script HTTP ' + resp.status);
 
     var data = await resp.json();
     if (!data.ok) throw new Error(data.error);
@@ -532,21 +519,17 @@ async function startScoring() {
     document.getElementById('tabCount').textContent   = allResults.length;
 
     log('✅ Job: "' + jobTitleGlobal + '"', 'ok');
-    log('✅ ' + allResults.length + ' candidates fetched and scored', 'ok');
+    log('✅ ' + allResults.length + ' candidates scored', 'ok');
     setProgress(100, 100, '✅ Done — ' + allResults.length + ' candidates scored');
     setStatus('✅ Complete', 'complete');
-
     renderResults();
 
-  } catch (err) {
+  } catch(err) {
     showError(err.message);
     log('❌ ' + err.message, 'err');
     setStatus('❌ Error', 'error');
-    console.error(err);
   } finally {
-    document.getElementById('runBtn').disabled       = false;
-    document.getElementById('spinner').style.display = 'none';
-    document.getElementById('btnText').textContent   = '▶ Run Scorer';
+    unlockUI();
   }
 }
 
