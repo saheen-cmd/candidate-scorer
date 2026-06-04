@@ -65,7 +65,7 @@
   .topbar-btn.primary { background: var(--accent); color: white; border-color: var(--accent); display: flex; align-items: center; gap: 6px; }
   .topbar-btn.primary:hover { background: var(--accent-hov); }
   .topbar-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; }
 
   /* CONTENT */
   .content { padding: 24px 28px 60px; flex: 1; }
@@ -74,13 +74,13 @@
   .page-header { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 18px; box-shadow: var(--shadow); }
   .page-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
   .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 3px; }
-  .page-subtitle { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .status-badge.ready    { background: var(--blue-bg);  color: var(--blue-txt); }
-  .status-badge.running  { background: var(--yellow-bg); color: var(--yellow-txt); }
-  .status-badge.complete { background: var(--green-bg);  color: var(--green-txt); }
-  .status-badge.error    { background: var(--red-bg);    color: var(--red-txt); }
-  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-top: 4px; }
+  .page-subtitle { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .status-badge.ready    { background: var(--blue-bg);   color: var(--blue-txt); }
+  .status-badge.running  { background: var(--yellow-bg);  color: var(--yellow-txt); }
+  .status-badge.complete { background: var(--green-bg);   color: var(--green-txt); }
+  .status-badge.error    { background: var(--red-bg);     color: var(--red-txt); }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-top: 4px; overflow-x: auto; }
   .tab-item { padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
   .tab-item.active { color: var(--text); border-bottom-color: var(--text); }
   .tab-count { background: var(--bg); border: 1px solid var(--border); color: var(--muted); font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; }
@@ -90,12 +90,11 @@
   .config-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
   .config-header h3 { font-size: 14px; font-weight: 600; }
   .config-header p { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .config-toggle { color: var(--muted); font-size: 11px; }
+  .config-toggle { color: var(--muted); font-size: 11px; white-space: nowrap; }
   .config-body { padding: 20px 24px; display: none; }
   .config-body.open { display: block; }
-  .section-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-top: 4px; }
+  .section-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 
-  .fg3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
   .fg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
   .fg1 { margin-bottom: 16px; }
   .field { display: flex; flex-direction: column; gap: 5px; }
@@ -133,7 +132,6 @@
   .plog { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; max-height: 120px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 11.5px; color: var(--muted); line-height: 1.9; }
   .ll      { display: block; }
   .ll.ok   { color: #15803d; }
-  .ll.warn { color: #b45309; }
   .ll.err  { color: #dc2626; }
 
   /* RESULTS */
@@ -169,7 +167,7 @@
   .dl-btn:hover { background: var(--accent-hov); }
 
   .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 720px; }
+  table { width: 100%; border-collapse: collapse; min-width: 680px; }
   thead tr { border-bottom: 1px solid var(--border); }
   th { padding: 11px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; background: var(--white); }
   td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; line-height: 1.5; }
@@ -179,7 +177,7 @@
   .col-num   { width: 40px; text-align: center; color: var(--muted2); font-size: 12px; }
   .col-name  { width: 165px; }
   .col-desig { width: 180px; }
-  .col-stage { width: 108px; }
+  .col-stage { width: 110px; }
   .col-score { width: 70px; text-align: center; }
 
   .cname  { font-weight: 600; margin-bottom: 1px; }
@@ -215,7 +213,7 @@
   @media (max-width: 860px) {
     .sidebar { display: none; }
     .main { margin-left: 0; }
-    .fg3, .fg2 { grid-template-columns: 1fr; }
+    .fg2 { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .col-desig { display: none; }
   }
@@ -300,7 +298,7 @@
       <div class="config-header" onclick="toggleConfig()">
         <div>
           <h3>⚙ Scorer Configuration</h3>
-          <p>Set up API connections and job details</p>
+          <p>Enter your Apps Script URL, job shortcode, stages, and job description</p>
         </div>
         <div class="config-toggle" id="configToggle">▲ Hide</div>
       </div>
@@ -316,28 +314,12 @@
                 oninput="validateUrl(this.value)" onchange="checkReady()">
               <div class="url-ind" id="urlInd">—</div>
             </div>
-            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone</div>
-          </div>
-        </div>
-
-        <div class="section-title">API Keys</div>
-        <div class="fg2">
-          <div class="field">
-            <label>Anthropic API Key</label>
-            <input type="password" id="anthropicKey" placeholder="sk-ant-api03-..." onchange="checkReady()">
-          </div>
-          <div class="field">
-            <label>Workable API Token</label>
-            <input type="password" id="workableToken" placeholder="From Workable → Settings → Integrations → API" onchange="checkReady()">
+            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone → copy /exec URL</div>
           </div>
         </div>
 
         <div class="section-title">Job Details</div>
-        <div class="fg3">
-          <div class="field">
-            <label>Workable Subdomain</label>
-            <input type="text" id="subdomain" value="lokal-app" placeholder="lokal-app" onchange="checkReady()">
-          </div>
+        <div class="fg2">
           <div class="field">
             <label>Job Shortcode</label>
             <input type="text" id="jobCode" placeholder="e.g. F7FF51014B" oninput="updateHeader()" onchange="checkReady()">
@@ -423,30 +405,32 @@
 </div>
 
 <script>
-let allResults    = [];
-let currentFilter = 'all';
-let jobTitleGlobal = '';
+var allResults     = [];
+var currentFilter  = 'all';
+var jobTitleGlobal = '';
 
-// ── UI HELPERS ────────────────────────────────────────────────────────────────
 function updateHeader() {
-  const code   = document.getElementById('jobCode').value.trim();
-  const stages = getStages();
+  var code   = document.getElementById('jobCode').value.trim();
+  var stages = getStages();
   document.getElementById('topbarJob').textContent    = code || 'Select a Job';
   document.getElementById('pageTitle').textContent    = code ? 'Job: ' + code : 'Candidate Scorer';
   document.getElementById('pageSubtitle').textContent = code ? 'Scoring candidates for ' + code : 'Configure your job details below to begin';
   document.getElementById('stageSummary').textContent = stages.length
-    ? stages.map(s => s.replace('_',' ')).join(' · ')
+    ? stages.map(function(s){ return s.replace('_',' '); }).join(' · ')
     : 'No stages selected';
 }
 
 function getStages() {
-  return Array.from(document.querySelectorAll('.stage-pill input:checked')).map(el => el.value);
+  var checked = document.querySelectorAll('.stage-pill input:checked');
+  var stages  = [];
+  for (var i = 0; i < checked.length; i++) stages.push(checked[i].value);
+  return stages;
 }
 
 function validateUrl(val) {
-  const el = document.getElementById('urlInd');
+  var el = document.getElementById('urlInd');
   if (!val) { el.textContent = '—'; el.className = 'url-ind'; return; }
-  if (val.includes('script.google.com/macros/s/') && val.endsWith('/exec')) {
+  if (val.indexOf('script.google.com/macros/s/') !== -1 && val.slice(-5) === '/exec') {
     el.textContent = '✓ Valid'; el.className = 'url-ind ok';
   } else {
     el.textContent = '✗ Check URL'; el.className = 'url-ind err';
@@ -454,11 +438,8 @@ function validateUrl(val) {
 }
 
 function checkReady() {
-  const ok =
+  var ok =
     document.getElementById('gasUrl').value.trim() &&
-    document.getElementById('anthropicKey').value.trim() &&
-    document.getElementById('workableToken').value.trim() &&
-    document.getElementById('subdomain').value.trim() &&
     document.getElementById('jobCode').value.trim() &&
     document.getElementById('jd').value.trim() &&
     getStages().length;
@@ -466,15 +447,15 @@ function checkReady() {
 }
 
 function toggleConfig() {
-  const body = document.getElementById('configBody');
-  const tog  = document.getElementById('configToggle');
-  const open = body.classList.toggle('open');
+  var body = document.getElementById('configBody');
+  var tog  = document.getElementById('configToggle');
+  var open = body.classList.toggle('open');
   tog.textContent = open ? '▲ Hide' : '▼ Show';
 }
 
 function log(msg, type) {
-  const el   = document.getElementById('plog');
-  const line = document.createElement('span');
+  var el   = document.getElementById('plog');
+  var line = document.createElement('span');
   line.className   = 'll ' + (type || '');
   line.textContent = msg;
   el.appendChild(line);
@@ -494,38 +475,22 @@ function showError(msg) {
 function hideError() { document.getElementById('errorBox').classList.remove('show'); }
 
 function setStatus(text, cls) {
-  const el = document.getElementById('statusBadge');
+  var el = document.getElementById('statusBadge');
   el.textContent = text;
   el.className   = 'status-badge ' + cls;
 }
 
-// ── CORE: call Apps Script (text/plain avoids CORS preflight) ─────────────────
-async function callGAS(payload) {
-  const gasUrl = document.getElementById('gasUrl').value.trim();
-  const resp   = await fetch(gasUrl, {
-    method : 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body   : JSON.stringify(payload)
-  });
-  if (!resp.ok) throw new Error('Apps Script returned HTTP ' + resp.status + '. Check your Web App URL.');
-  const data = await resp.json();
-  if (!data.ok) throw new Error(data.error);
-  return data.data;
-}
+function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
 
-// ── MAIN FLOW ─────────────────────────────────────────────────────────────────
 async function startScoring() {
   hideError();
   allResults = [];
 
-  const anthropicKey = document.getElementById('anthropicKey').value.trim();
-  const subdomain    = document.getElementById('subdomain').value.trim();
-  const wToken       = document.getElementById('workableToken').value.trim();
-  const jobCode      = document.getElementById('jobCode').value.trim();
-  const jd           = document.getElementById('jd').value.trim();
-  const stages       = getStages();
+  var gasUrl  = document.getElementById('gasUrl').value.trim();
+  var jobCode = document.getElementById('jobCode').value.trim();
+  var jd      = document.getElementById('jd').value.trim();
+  var stages  = getStages();
 
-  // Lock UI
   document.getElementById('runBtn').disabled          = true;
   document.getElementById('spinner').style.display    = 'inline-block';
   document.getElementById('btnText').textContent      = 'Running…';
@@ -536,69 +501,41 @@ async function startScoring() {
   setProgress(0, 0, 'Connecting to Apps Script…');
 
   try {
-    // STEP 1 — fetch candidates
-    log('📡 Fetching candidates from Workable…');
-    const fetched = await callGAS({
-      action   : 'fetchCandidates',
-      subdomain: subdomain,
-      token    : wToken,
-      jobCode  : jobCode,
-      stages   : stages
+    log('📡 Fetching candidates and scoring via Apps Script…');
+    log('   Job: ' + jobCode + ' | Stages: ' + stages.join(', '));
+
+    setProgress(0, 100, 'Fetching candidates from Workable…');
+
+    var resp = await fetch(gasUrl, {
+      method : 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body   : JSON.stringify({
+        action : 'fetchAndScore',
+        jobCode: jobCode,
+        stages : stages,
+        jd     : jd
+      })
     });
 
-    jobTitleGlobal = fetched.jobTitle;
-    const enriched = fetched.candidates;
+    if (!resp.ok) {
+      throw new Error('Apps Script returned HTTP ' + resp.status + '. Make sure Web App is deployed with access set to Anyone.');
+    }
+
+    var data = await resp.json();
+    if (!data.ok) throw new Error(data.error);
+
+    jobTitleGlobal = data.data.jobTitle;
+    allResults     = data.data.candidates;
 
     document.getElementById('pageTitle').textContent  = jobTitleGlobal;
     document.getElementById('topbarJob').textContent  = jobTitleGlobal;
+    document.getElementById('tabCount').textContent   = allResults.length;
 
     log('✅ Job: "' + jobTitleGlobal + '"', 'ok');
-    log('✅ ' + enriched.length + ' candidates loaded', 'ok');
-    setProgress(enriched.length, enriched.length, 'Candidates loaded. Starting AI scoring…');
-
-    if (!enriched.length) throw new Error('No candidates found. Check job shortcode and stages.');
-
-    // STEP 2 — score in batches of 10
-    const BATCH  = 10;
-    const scored = [];
-
-    for (let i = 0; i < enriched.length; i += BATCH) {
-      const batch  = enriched.slice(i, i + BATCH);
-      const end    = Math.min(i + BATCH, enriched.length);
-      const batchN = Math.floor(i / BATCH) + 1;
-
-      setProgress(end, enriched.length, 'AI scoring ' + (i+1) + '–' + end + ' of ' + enriched.length + '…');
-      log('🤖 Scoring batch ' + batchN + ' (' + (i+1) + '–' + end + ')…');
-
-      const results = await callGAS({
-        action    : 'scoreCandidates',
-        candidates: batch,
-        jd        : jd,
-        apiKey    : anthropicKey
-      });
-
-      results.forEach((r, idx) => {
-        scored.push({
-          seq        : i + idx + 1,
-          name       : batch[idx]?.name       || r.name || '—',
-          email      : batch[idx]?.email      || '—',
-          designation: r.designation          || '—',
-          score      : typeof r.score === 'number' ? r.score : parseInt(r.score) || 0,
-          reason     : r.reason               || '—',
-          stage      : batch[idx]?.stage      || '—',
-          resume_url : batch[idx]?.resume_url || ''
-        });
-      });
-
-      log('   ✅ Batch ' + batchN + ' done', 'ok');
-      if (i + BATCH < enriched.length) await new Promise(r => setTimeout(r, 400));
-    }
-
-    allResults = scored;
-    document.getElementById('tabCount').textContent = scored.length;
-    log('🎉 Complete! ' + scored.length + ' candidates scored.', 'ok');
-    setProgress(enriched.length, enriched.length, '✅ Done — ' + scored.length + ' candidates scored');
+    log('✅ ' + allResults.length + ' candidates fetched and scored', 'ok');
+    setProgress(100, 100, '✅ Done — ' + allResults.length + ' candidates scored');
     setStatus('✅ Complete', 'complete');
+
     renderResults();
 
   } catch (err) {
@@ -613,100 +550,98 @@ async function startScoring() {
   }
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
 function stageClass(s) {
-  const sl = (s || '').toLowerCase();
-  if (sl.includes('applied'))    return 'sa';
-  if (sl.includes('hiring'))     return 'sh';
-  if (sl.includes('assessment')) return 'ss';
+  var sl = (s || '').toLowerCase();
+  if (sl.indexOf('applied')    !== -1) return 'sa';
+  if (sl.indexOf('hiring')     !== -1) return 'sh';
+  if (sl.indexOf('assessment') !== -1) return 'ss';
   return 'so';
 }
-function scoreClass(s) {
-  return s >= 65 ? 'spg' : s >= 40 ? 'spy' : 'spr';
-}
+function scoreClass(s) { return s >= 65 ? 'spg' : s >= 40 ? 'spy' : 'spr'; }
 function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function renderResults() {
   document.getElementById('resultsSection').classList.add('show');
-  const strong   = allResults.filter(r => r.score >= 65).length;
-  const moderate = allResults.filter(r => r.score >= 40 && r.score < 65).length;
-  const weak     = allResults.filter(r => r.score < 40).length;
+  var strong   = allResults.filter(function(r){ return r.score >= 65; }).length;
+  var moderate = allResults.filter(function(r){ return r.score >= 40 && r.score < 65; }).length;
+  var weak     = allResults.filter(function(r){ return r.score < 40; }).length;
 
-  document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card"><div class="stat-icon t">👥</div><div><div class="stat-num" style="color:var(--blue-txt)">${allResults.length}</div><div class="stat-lbl">Total Candidates</div></div></div>
-    <div class="stat-card"><div class="stat-icon g">🟢</div><div><div class="stat-num" style="color:var(--green-txt)">${strong}</div><div class="stat-lbl">Strong Fit (65+)</div></div></div>
-    <div class="stat-card"><div class="stat-icon y">🟡</div><div><div class="stat-num" style="color:var(--yellow-txt)">${moderate}</div><div class="stat-lbl">Moderate (40–64)</div></div></div>
-    <div class="stat-card"><div class="stat-icon r">🔴</div><div><div class="stat-num" style="color:var(--red-txt)">${weak}</div><div class="stat-lbl">Weak Fit (&lt;40)</div></div></div>
-  `;
+  document.getElementById('statsGrid').innerHTML =
+    '<div class="stat-card"><div class="stat-icon t">👥</div><div><div class="stat-num" style="color:var(--blue-txt)">' + allResults.length + '</div><div class="stat-lbl">Total Candidates</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon g">🟢</div><div><div class="stat-num" style="color:var(--green-txt)">' + strong + '</div><div class="stat-lbl">Strong Fit (65+)</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon y">🟡</div><div><div class="stat-num" style="color:var(--yellow-txt)">' + moderate + '</div><div class="stat-lbl">Moderate (40–64)</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon r">🔴</div><div><div class="stat-num" style="color:var(--red-txt)">' + weak + '</div><div class="stat-lbl">Weak Fit (&lt;40)</div></div></div>';
+
   applySearch();
 }
 
 function filterTable(type, btn) {
   currentFilter = type;
-  document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+  var pills = document.querySelectorAll('.fpill');
+  for (var i = 0; i < pills.length; i++) pills[i].classList.remove('active');
   btn.classList.add('active');
   applySearch();
 }
 
 function applySearch() {
-  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
-  const filtered = allResults.filter(r => {
-    const mf =
-      currentFilter === 'strong'   ? r.score >= 65 :
-      currentFilter === 'moderate' ? r.score >= 40 && r.score < 65 :
-      currentFilter === 'weak'     ? r.score < 40 : true;
-    const ms = !q || r.name.toLowerCase().includes(q) ||
-      r.designation.toLowerCase().includes(q) ||
-      r.reason.toLowerCase().includes(q);
+  var q = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').toLowerCase();
+  var filtered = allResults.filter(function(r) {
+    var mf = currentFilter === 'strong'   ? r.score >= 65 :
+             currentFilter === 'moderate' ? r.score >= 40 && r.score < 65 :
+             currentFilter === 'weak'     ? r.score < 40 : true;
+    var ms = !q ||
+      r.name.toLowerCase().indexOf(q) !== -1 ||
+      r.designation.toLowerCase().indexOf(q) !== -1 ||
+      r.reason.toLowerCase().indexOf(q) !== -1;
     return mf && ms;
   });
 
   if (!filtered.length) {
-    document.getElementById('tableBody').innerHTML = `
-      <tr><td colspan="6">
-        <div class="empty-state">
-          <div class="empty-icon">🔍</div>
-          <div class="empty-title">No candidates found</div>
-          <div class="empty-sub">Try a different filter or search term</div>
-        </div>
-      </td></tr>`;
+    document.getElementById('tableBody').innerHTML =
+      '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No candidates found</div><div class="empty-sub">Try a different filter or search term</div></div></td></tr>';
     return;
   }
 
-  document.getElementById('tableBody').innerHTML = filtered.map(r => {
-    const parts = r.designation.split(' at ');
-    const title = parts[0] || r.designation;
-    const comp  = parts[1] || '';
-    return `<tr>
-      <td class="col-num">${r.seq}</td>
-      <td class="col-name"><div class="cname">${esc(r.name)}</div><div class="cemail">${esc(r.email)}</div></td>
-      <td class="col-desig"><div class="dtitle">${esc(title)}</div>${comp ? '<div class="dcomp">'+esc(comp)+'</div>' : ''}</td>
-      <td class="col-stage"><span class="stage-tag ${stageClass(r.stage)}">${esc(r.stage)}</span></td>
-      <td class="col-score"><span class="score-pill ${scoreClass(r.score)}">${r.score}</span></td>
-      <td><span class="reason">${esc(r.reason)}</span></td>
-    </tr>`;
-  }).join('');
+  var rows = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var r     = filtered[i];
+    var parts = r.designation.split(' at ');
+    var title = parts[0] || r.designation;
+    var comp  = parts[1] || '';
+    rows +=
+      '<tr>' +
+      '<td class="col-num">' + r.seq + '</td>' +
+      '<td class="col-name"><div class="cname">' + esc(r.name) + '</div><div class="cemail">' + esc(r.email) + '</div></td>' +
+      '<td class="col-desig"><div class="dtitle">' + esc(title) + '</div>' + (comp ? '<div class="dcomp">' + esc(comp) + '</div>' : '') + '</td>' +
+      '<td class="col-stage"><span class="stage-tag ' + stageClass(r.stage) + '">' + esc(r.stage) + '</span></td>' +
+      '<td class="col-score"><span class="score-pill ' + scoreClass(r.score) + '">' + r.score + '</span></td>' +
+      '<td><span class="reason">' + esc(r.reason) + '</span></td>' +
+      '</tr>';
+  }
+  document.getElementById('tableBody').innerHTML = rows;
 }
 
-// ── XLSX ──────────────────────────────────────────────────────────────────────
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
-  const rows = [
+  var rows = [
     ['Candidate Scoring – ' + jobTitleGlobal],
     ['Scoring criteria auto-derived from Job Description using Claude AI'],
     [],
     ['#','Candidate Name','Email','Current Designation','Score / 100','Reason for Score','Stage']
   ];
-  allResults.forEach(r => rows.push([r.seq, r.name, r.email, r.designation, r.score, r.reason, r.stage]));
+  for (var i = 0; i < allResults.length; i++) {
+    var r = allResults[i];
+    rows.push([r.seq, r.name, r.email, r.designation, r.score, r.reason, r.stage]);
+  }
   rows.push([]);
   rows.push(['Legend:','65–100: Strong Fit','40–64: Moderate / Potential Fit','0–39: Weak Fit / Not Aligned']);
 
-  const ws = XLSX.utils.aoa_to_sheet(rows);
+  var ws = XLSX.utils.aoa_to_sheet(rows);
   ws['!cols'] = [{wch:4},{wch:24},{wch:28},{wch:32},{wch:10},{wch:68},{wch:14}];
   ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:6}},{s:{r:1,c:0},e:{r:1,c:6}}];
-  const wb = XLSX.utils.book_new();
+  var wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Candidate Scores');
   XLSX.utils.writeFile(wb, 'Candidate_Scores_' + jobTitleGlobal.replace(/[^a-z0-9]/gi,'_').substring(0,30) + '.xlsx');
 }
