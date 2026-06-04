@@ -508,7 +508,7 @@ async function startScoring() {
 
     var resp = await fetch(gasUrl, {
       method : 'POST',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body   : JSON.stringify({
         action : 'fetchAndScore',
         jobCode: jobCode,
