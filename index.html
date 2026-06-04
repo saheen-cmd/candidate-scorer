@@ -35,588 +35,187 @@
     --orange-bg : #ffedd5;
     --orange-txt: #9a3412;
     --radius    : 8px;
-    --shadow    : 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md : 0 4px 12px rgba(0,0,0,0.08);
+    --shadow    : 0 1px 3px rgba(0,0,0,0.08);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: 220px;
-    min-height: 100vh;
-    background: var(--sidebar);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    z-index: 100;
-  }
-
-  .sidebar-logo {
-    padding: 20px 18px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .sidebar-logo-icon {
-    width: 32px; height: 32px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  .sidebar-logo-text {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--sidebar-a);
-    letter-spacing: -0.2px;
-  }
-
-  .sidebar-section {
-    padding: 20px 12px 8px;
-  }
-  .sidebar-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--sidebar-m);
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    padding: 0 8px;
-    margin-bottom: 4px;
-  }
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--sidebar-t);
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-bottom: 1px;
-  }
+  /* SIDEBAR */
+  .sidebar { width: 220px; min-height: 100vh; background: var(--sidebar); display: flex; flex-direction: column; flex-shrink: 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+  .sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
+  .sidebar-logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .sidebar-logo-text { font-size: 15px; font-weight: 600; color: var(--sidebar-a); }
+  .sidebar-section { padding: 20px 12px 8px; }
+  .sidebar-section-label { font-size: 10px; font-weight: 600; color: var(--sidebar-m); letter-spacing: 0.8px; text-transform: uppercase; padding: 0 8px; margin-bottom: 4px; }
+  .sidebar-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 6px; font-size: 13px; color: var(--sidebar-t); cursor: pointer; transition: all 0.15s; margin-bottom: 1px; }
   .sidebar-item:hover { background: rgba(255,255,255,0.07); color: var(--sidebar-a); }
   .sidebar-item.active { background: rgba(255,255,255,0.12); color: var(--sidebar-a); font-weight: 500; }
   .sidebar-item .icon { font-size: 14px; width: 18px; text-align: center; }
-  .sidebar-item .count {
-    margin-left: auto;
-    background: rgba(255,255,255,0.12);
-    color: var(--sidebar-t);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 6px;
-    border-radius: 10px;
-  }
 
-  /* ── MAIN ── */
-  .main {
-    margin-left: 220px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+  /* MAIN */
+  .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-  /* ── TOP BAR ── */
-  .topbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 0 28px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .topbar-left { display: flex; align-items: center; gap: 8px; }
-  .breadcrumb {
-    font-size: 13px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  /* TOPBAR */
+  .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+  .breadcrumb { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
   .breadcrumb span { color: var(--text); font-weight: 500; }
-  .breadcrumb-sep { color: var(--muted2); }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .topbar-btn { background: transparent; border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 14px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .topbar-btn:hover { background: var(--bg); }
+  .topbar-btn.primary { background: var(--accent); color: white; border-color: var(--accent); display: flex; align-items: center; gap: 6px; }
+  .topbar-btn.primary:hover { background: var(--accent-hov); }
+  .topbar-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; cursor: pointer; }
 
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
-  .topbar-btn {
-    background: transparent;
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 6px 14px;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
-  }
-  .topbar-btn:hover { background: var(--bg); border-color: var(--border2); }
-  .topbar-btn.primary {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-  .topbar-btn.primary:hover { background: var(--accent-hov); border-color: var(--accent-hov); }
-  .topbar-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  /* CONTENT */
+  .content { padding: 24px 28px 60px; flex: 1; }
 
-  .avatar {
-    width: 32px; height: 32px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 12px; font-weight: 600;
-    cursor: pointer;
-  }
-
-  /* ── CONTENT ── */
-  .content { padding: 28px 28px 60px; flex: 1; }
-
-  /* ── PAGE HEADER ── */
-  .page-header {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px 28px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-  .page-header-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  .page-title {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-  .page-subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .dot { color: var(--muted2); }
-
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .status-badge.open { background: #dcfce7; color: #15803d; }
-  .status-badge.ready { background: var(--blue-bg); color: var(--blue-txt); }
-
-  /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-top: 4px;
-  }
-  .tab-item {
-    padding: 10px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-  .tab-item:hover { color: var(--text); }
+  /* PAGE HEADER */
+  .page-header { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .page-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 3px; }
+  .page-subtitle { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .status-badge.ready    { background: var(--blue-bg);  color: var(--blue-txt); }
+  .status-badge.running  { background: var(--yellow-bg); color: var(--yellow-txt); }
+  .status-badge.complete { background: var(--green-bg);  color: var(--green-txt); }
+  .status-badge.error    { background: var(--red-bg);    color: var(--red-txt); }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-top: 4px; }
+  .tab-item { padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
   .tab-item.active { color: var(--text); border-bottom-color: var(--text); }
-  .tab-count {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 6px;
-    border-radius: 10px;
-  }
+  .tab-count { background: var(--bg); border: 1px solid var(--border); color: var(--muted); font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; }
 
-  /* ── CONFIG PANEL ── */
-  .config-panel {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .config-header {
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-  }
-  .config-header-left { display: flex; align-items: center; gap: 10px; }
+  /* CONFIG PANEL */
+  .config-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 18px; box-shadow: var(--shadow); overflow: hidden; }
+  .config-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
   .config-header h3 { font-size: 14px; font-weight: 600; }
   .config-header p { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .config-toggle { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
-  .config-toggle.open { transform: rotate(180deg); }
-  .config-body { padding: 24px; display: none; }
+  .config-toggle { color: var(--muted); font-size: 11px; }
+  .config-body { padding: 20px 24px; display: none; }
   .config-body.open { display: block; }
+  .section-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-top: 4px; }
 
-  .config-section-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-  .form-grid-1 { margin-bottom: 20px; }
-
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-  }
-  .field input, .field textarea {
-    background: var(--white);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 9px 12px;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    width: 100%;
-  }
-  .field input:focus, .field textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(45,106,79,0.08);
-  }
+  .fg3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .fg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .fg1 { margin-bottom: 16px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 12px; font-weight: 500; color: var(--text); }
+  .field input, .field textarea { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); padding: 9px 12px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; transition: border-color 0.15s, box-shadow 0.15s; width: 100%; }
+  .field input:focus, .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.08); }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted2); }
-  .field textarea { min-height: 160px; resize: vertical; }
-  .field-hint { font-size: 11px; color: var(--muted2); margin-top: 3px; }
+  .field textarea { min-height: 150px; resize: vertical; }
+  .field-hint { font-size: 11px; color: var(--muted2); }
 
-  .stage-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .stage-pill {
-    display: flex; align-items: center; gap: 6px;
-    padding: 7px 14px;
-    border: 1px solid var(--border2);
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    user-select: none;
-    color: var(--muted);
-  }
+  .url-wrap { position: relative; }
+  .url-wrap input { padding-right: 95px; }
+  .url-ind { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 500; color: var(--muted2); }
+  .url-ind.ok  { color: #15803d; }
+  .url-ind.err { color: #dc2626; }
+
+  .stage-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+  .stage-pill { display: flex; align-items: center; gap: 5px; padding: 6px 13px; border: 1px solid var(--border2); border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; user-select: none; color: var(--muted); }
   .stage-pill input { display: none; }
-  .stage-pill:has(input:checked) {
-    background: var(--accent-bg);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .stage-pill .pill-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.5;
-  }
+  .stage-pill:has(input:checked) { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+  .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.5; }
   .stage-pill:has(input:checked) .pill-dot { opacity: 1; }
 
-  /* GAS URL field with indicator */
-  .url-field-wrap { position: relative; }
-  .url-field-wrap input { padding-right: 90px; }
-  .url-indicator {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    font-size: 11px; font-weight: 500;
-    color: var(--muted2);
-    display: flex; align-items: center; gap: 4px;
-  }
-  .url-indicator.ok { color: #15803d; }
-  .url-indicator.err { color: #dc2626; }
-
-  /* Error */
-  .error-box {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #dc2626;
-    margin-bottom: 16px;
-    display: none;
-    align-items: flex-start;
-    gap: 8px;
-  }
+  .error-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius); padding: 11px 14px; font-size: 13px; color: #dc2626; margin-bottom: 14px; display: none; align-items: flex-start; gap: 7px; }
   .error-box.show { display: flex; }
 
-  /* ── PROGRESS ── */
-  .progress-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    display: none;
-  }
+  /* PROGRESS */
+  .progress-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; box-shadow: var(--shadow); display: none; }
   .progress-card.show { display: block; }
-  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .progress-label { font-size: 13px; font-weight: 500; color: var(--text); }
-  .progress-pct { font-size: 13px; color: var(--muted); }
-  .pbar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 13px; font-weight: 500; }
+  .progress-pct { font-size: 12px; color: var(--muted); }
+  .pbar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
   .pbar-inner { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
-  .plog {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
-    max-height: 120px;
-    overflow-y: auto;
-    font-family: 'Courier New', monospace;
-    font-size: 11.5px;
-    color: var(--muted);
-    line-height: 1.9;
-  }
-  .ll { display: block; }
+  .plog { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; max-height: 120px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 11.5px; color: var(--muted); line-height: 1.9; }
+  .ll      { display: block; }
   .ll.ok   { color: #15803d; }
   .ll.warn { color: #b45309; }
   .ll.err  { color: #dc2626; }
 
-  /* ── RESULTS ── */
+  /* RESULTS */
   .results-section { display: none; }
   .results-section.show { display: block; }
 
-  /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
-  .stat-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .stat-icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .stat-icon.total  { background: var(--blue-bg); }
-  .stat-icon.green  { background: var(--green-bg); }
-  .stat-icon.yellow { background: var(--yellow-bg); }
-  .stat-icon.red    { background: var(--red-bg); }
-  .stat-info { min-width: 0; }
-  .stat-num  { font-size: 24px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
-  .stat-lbl  { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 18px; }
+  .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
+  .stat-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .stat-icon.t { background: var(--blue-bg); }
+  .stat-icon.g { background: var(--green-bg); }
+  .stat-icon.y { background: var(--yellow-bg); }
+  .stat-icon.r { background: var(--red-bg); }
+  .stat-num { font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .stat-lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
 
-  /* Candidates table card */
-  .table-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .table-toolbar {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
+  .table-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .table-toolbar { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
   .table-title { font-size: 14px; font-weight: 600; }
-  .table-toolbar-right { display: flex; gap: 8px; align-items: center; }
+  .toolbar-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-  /* Filter pills */
-  .filter-pills { display: flex; gap: 6px; }
-  .fpill {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--border2);
-    background: transparent;
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    transition: all 0.15s;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .fpill:hover { color: var(--text); border-color: var(--border2); background: var(--bg); }
+  .filter-pills { display: flex; gap: 5px; }
+  .fpill { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--muted); font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .fpill:hover { color: var(--text); background: var(--bg); }
   .fpill.active { background: var(--text); color: white; border-color: var(--text); }
 
-  /* Search */
-  .search-box {
-    position: relative;
-  }
-  .search-box input {
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 7px 12px 7px 32px;
-    font-size: 13px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    outline: none;
-    background: var(--bg);
-    width: 200px;
-    transition: border-color 0.15s, width 0.2s;
-  }
-  .search-box input:focus { border-color: var(--accent); width: 240px; background: white; }
-  .search-box::before {
-    content: '🔍';
-    position: absolute;
-    left: 10px; top: 50%; transform: translateY(-50%);
-    font-size: 11px;
-    pointer-events: none;
-  }
+  .search-wrap { position: relative; }
+  .search-wrap input { border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 12px 7px 30px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; background: var(--bg); width: 190px; transition: border-color 0.15s; }
+  .search-wrap input:focus { border-color: var(--accent); background: white; }
+  .search-wrap::before { content: '🔍'; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 11px; pointer-events: none; }
 
-  /* Table */
+  .dl-btn { background: var(--accent); color: white; border: none; border-radius: var(--radius); padding: 7px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.15s; }
+  .dl-btn:hover { background: var(--accent-hov); }
+
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; min-width: 720px; }
   thead tr { border-bottom: 1px solid var(--border); }
-  th {
-    padding: 11px 16px;
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    background: var(--white);
-  }
-  td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; line-height: 1.5; }
+  th { padding: 11px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; background: var(--white); }
+  td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; line-height: 1.5; }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #fafaf8; }
 
   .col-num   { width: 40px; text-align: center; color: var(--muted2); font-size: 12px; }
-  .col-name  { width: 170px; }
-  .col-desig { width: 185px; }
-  .col-stage { width: 110px; }
-  .col-score { width: 72px; text-align: center; }
+  .col-name  { width: 165px; }
+  .col-desig { width: 180px; }
+  .col-stage { width: 108px; }
+  .col-score { width: 70px; text-align: center; }
 
-  .candidate-name { font-weight: 600; color: var(--text); margin-bottom: 1px; }
-  .candidate-email { font-size: 11px; color: var(--muted2); }
+  .cname  { font-weight: 600; margin-bottom: 1px; }
+  .cemail { font-size: 11px; color: var(--muted2); }
+  .dtitle { margin-bottom: 1px; }
+  .dcomp  { font-size: 11px; color: var(--muted2); }
 
-  .desig-title { color: var(--text); margin-bottom: 1px; }
-  .desig-company { font-size: 11px; color: var(--muted2); }
+  .stage-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .sa { background: var(--blue-bg);   color: var(--blue-txt); }
+  .sh { background: var(--orange-bg); color: var(--orange-txt); }
+  .ss { background: var(--purple-bg); color: var(--purple-txt); }
+  .so { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
 
-  /* Stage badges */
-  .stage-tag {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 3px 9px; border-radius: 12px;
-    font-size: 11px; font-weight: 500;
-    white-space: nowrap;
-  }
-  .stage-applied   { background: var(--blue-bg);   color: var(--blue-txt); }
-  .stage-hiring    { background: var(--orange-bg);  color: var(--orange-txt); }
-  .stage-assessment{ background: var(--purple-bg);  color: var(--purple-txt); }
-  .stage-other     { background: var(--bg);         color: var(--muted); border: 1px solid var(--border); }
+  .score-pill { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 25px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+  .spg { background: var(--green-bg);  color: var(--green-txt); }
+  .spy { background: var(--yellow-bg); color: var(--yellow-txt); }
+  .spr { background: var(--red-bg);    color: var(--red-txt); }
 
-  /* Score pill */
-  .score-pill {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 46px; height: 26px;
-    border-radius: 6px;
-    font-size: 13px; font-weight: 700;
-  }
-  .sp-green  { background: var(--green-bg);  color: var(--green-txt); }
-  .sp-yellow { background: var(--yellow-bg); color: var(--yellow-txt); }
-  .sp-red    { background: var(--red-bg);    color: var(--red-txt); }
+  .reason { color: var(--muted); font-size: 12px; line-height: 1.6; }
 
-  .reason-text { color: var(--muted); font-size: 12px; line-height: 1.6; }
+  .empty-state { text-align: center; padding: 44px 24px; color: var(--muted); }
+  .empty-icon  { font-size: 28px; margin-bottom: 10px; }
+  .empty-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .empty-sub   { font-size: 12px; }
 
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--muted);
-  }
-  .empty-icon { font-size: 32px; margin-bottom: 12px; }
-  .empty-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .empty-sub { font-size: 13px; }
-
-  /* spinner */
-  .spin {
-    width: 14px; height: 14px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: rot 0.7s linear infinite;
-    display: none;
-  }
-  .spin.dark { border-color: rgba(0,0,0,0.15); border-top-color: var(--text); }
-  @keyframes rot { to { transform: rotate(360deg); } }
-
-  /* Legend */
-  .legend { display: flex; gap: 20px; padding: 14px 20px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .legend { display: flex; gap: 18px; padding: 12px 18px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
   .ldot { width: 8px; height: 8px; border-radius: 3px; }
 
-  /* Download btn */
-  .dl-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    padding: 7px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    transition: background 0.15s;
-  }
-  .dl-btn:hover { background: var(--accent-hov); }
+  .spin { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: rot 0.7s linear infinite; display: none; }
+  @keyframes rot { to { transform: rotate(360deg); } }
 
-  @media (max-width: 900px) {
+  @media (max-width: 860px) {
     .sidebar { display: none; }
     .main { margin-left: 0; }
-    .form-grid-3 { grid-template-columns: 1fr; }
-    .form-grid-2 { grid-template-columns: 1fr; }
+    .fg3, .fg2 { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .col-desig { display: none; }
   }
@@ -630,7 +229,6 @@
     <div class="sidebar-logo-icon">🎯</div>
     <div class="sidebar-logo-text">Recruitment</div>
   </div>
-
   <div class="sidebar-section">
     <div class="sidebar-section-label">Main</div>
     <div class="sidebar-item"><span class="icon">📊</span> Dashboard</div>
@@ -638,18 +236,15 @@
     <div class="sidebar-item"><span class="icon">👥</span> Candidates</div>
     <div class="sidebar-item"><span class="icon">📈</span> Insights</div>
   </div>
-
   <div class="sidebar-section">
     <div class="sidebar-section-label">Jobs</div>
     <div class="sidebar-item"><span class="icon">📋</span> Manage Jobs</div>
     <div class="sidebar-item"><span class="icon">➕</span> New Job</div>
     <div class="sidebar-item"><span class="icon">🔗</span> Referrals</div>
   </div>
-
   <div class="sidebar-section">
     <div class="sidebar-section-label">Company</div>
     <div class="sidebar-item"><span class="icon">🏢</span> Profile</div>
-    <div class="sidebar-item"><span class="icon">👤</span> User Management</div>
     <div class="sidebar-item"><span class="icon">⚙️</span> Settings</div>
   </div>
 </aside>
@@ -659,13 +254,11 @@
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="breadcrumb">
-        Jobs <span class="breadcrumb-sep">→</span>
-        <span id="topbarJob">Select a Job</span>
-        <span class="breadcrumb-sep">→</span>
-        Candidates
-      </div>
+    <div class="breadcrumb">
+      Jobs <span style="color:var(--muted2)">→</span>
+      <span id="topbarJob">Select a Job</span>
+      <span style="color:var(--muted2)">→</span>
+      Candidates
     </div>
     <div class="topbar-right">
       <button class="topbar-btn" onclick="toggleConfig()">⚙ Configure</button>
@@ -686,14 +279,12 @@
         <div>
           <div class="page-title" id="pageTitle">Candidate Scorer</div>
           <div class="page-subtitle">
-            <span id="pageSubtitle">Configure your job details to begin</span>
-            <span class="dot">•</span>
+            <span id="pageSubtitle">Configure your job details below to begin</span>
+            <span style="color:var(--muted2)">•</span>
             <span id="stageSummary">No stages selected</span>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="status-badge ready" id="statusBadge">⚡ Ready</span>
-        </div>
+        <span class="status-badge ready" id="statusBadge">⚡ Ready</span>
       </div>
       <div class="tabs">
         <div class="tab-item active">👥 Candidates <span class="tab-count" id="tabCount">0</span></div>
@@ -704,47 +295,45 @@
       </div>
     </div>
 
-    <!-- CONFIG PANEL -->
+    <!-- CONFIG -->
     <div class="config-panel" id="configPanel">
       <div class="config-header" onclick="toggleConfig()">
-        <div class="config-header-left">
-          <div>
-            <h3>⚙ Scorer Configuration</h3>
-            <p style="font-size:12px;color:var(--muted);margin-top:2px">Set up your API connections and job details</p>
-          </div>
+        <div>
+          <h3>⚙ Scorer Configuration</h3>
+          <p>Set up API connections and job details</p>
         </div>
-        <div class="config-toggle open" id="configToggle">▲</div>
+        <div class="config-toggle" id="configToggle">▲ Hide</div>
       </div>
       <div class="config-body open" id="configBody">
 
-        <div class="config-section-title">Apps Script Web App</div>
-        <div class="form-grid-1">
+        <div class="section-title">Apps Script Web App</div>
+        <div class="fg1">
           <div class="field">
             <label>Google Apps Script Web App URL</label>
-            <div class="url-field-wrap">
+            <div class="url-wrap">
               <input type="text" id="gasUrl"
                 placeholder="https://script.google.com/macros/s/AKfycb.../exec"
                 oninput="validateUrl(this.value)" onchange="checkReady()">
-              <div class="url-indicator" id="urlInd">—</div>
+              <div class="url-ind" id="urlInd">—</div>
             </div>
-            <div class="field-hint">Deploy your WebApp.gs as a Web App → Execute as Me → Anyone</div>
+            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone</div>
           </div>
         </div>
 
-        <div class="config-section-title" style="margin-top:8px">API Keys</div>
-        <div class="form-grid-2">
+        <div class="section-title">API Keys</div>
+        <div class="fg2">
           <div class="field">
             <label>Anthropic API Key</label>
             <input type="password" id="anthropicKey" placeholder="sk-ant-api03-..." onchange="checkReady()">
           </div>
           <div class="field">
             <label>Workable API Token</label>
-            <input type="password" id="workableToken" placeholder="Bearer token from Workable Settings → Integrations" onchange="checkReady()">
+            <input type="password" id="workableToken" placeholder="From Workable → Settings → Integrations → API" onchange="checkReady()">
           </div>
         </div>
 
-        <div class="config-section-title" style="margin-top:8px">Job Details</div>
-        <div class="form-grid-3">
+        <div class="section-title">Job Details</div>
+        <div class="fg3">
           <div class="field">
             <label>Workable Subdomain</label>
             <input type="text" id="subdomain" value="lokal-app" placeholder="lokal-app" onchange="checkReady()">
@@ -764,18 +353,15 @@
           </div>
         </div>
 
-        <div class="form-grid-1">
+        <div class="fg1">
           <div class="field">
             <label>Job Description</label>
-            <textarea id="jd"
-              placeholder="Paste the full job description here — role overview, key responsibilities, ideal candidate profile, required experience, skills, and any non-negotiables.&#10;&#10;The more detail you include, the more accurate the AI scoring will be."
-              onchange="checkReady()"></textarea>
+            <textarea id="jd" placeholder="Paste the full job description here — role overview, key responsibilities, ideal candidate profile, required experience, skills, and non-negotiables. The more detail, the more accurate the AI scoring." onchange="checkReady()"></textarea>
           </div>
         </div>
 
         <div class="error-box" id="errorBox">
-          <span>⚠</span>
-          <span id="errorMsg"></span>
+          <span>⚠</span><span id="errorMsg"></span>
         </div>
 
       </div>
@@ -793,26 +379,23 @@
 
     <!-- RESULTS -->
     <div class="results-section" id="resultsSection">
-
       <div class="stats-grid" id="statsGrid"></div>
-
       <div class="table-card">
         <div class="table-toolbar">
           <div class="table-title">All Candidates</div>
-          <div class="table-toolbar-right">
-            <div class="filter-pills" id="filterPills">
+          <div class="toolbar-right">
+            <div class="filter-pills">
               <button class="fpill active" onclick="filterTable('all',this)">All</button>
               <button class="fpill" onclick="filterTable('strong',this)">🟢 Strong</button>
               <button class="fpill" onclick="filterTable('moderate',this)">🟡 Moderate</button>
               <button class="fpill" onclick="filterTable('weak',this)">🔴 Weak</button>
             </div>
-            <div class="search-box">
+            <div class="search-wrap">
               <input type="text" id="searchInput" placeholder="Search candidates…" oninput="applySearch()">
             </div>
             <button class="dl-btn" onclick="downloadXLSX()">⬇ Export XLSX</button>
           </div>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
@@ -828,75 +411,71 @@
             <tbody id="tableBody"></tbody>
           </table>
         </div>
-
         <div class="legend">
           <div class="legend-item"><div class="ldot" style="background:#d1fae5"></div>65–100 Strong Fit</div>
           <div class="legend-item"><div class="ldot" style="background:#fef3c7"></div>40–64 Moderate Fit</div>
           <div class="legend-item"><div class="ldot" style="background:#fee2e2"></div>0–39 Weak Fit</div>
         </div>
       </div>
-
     </div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
+  </div>
+</div>
 
 <script>
-// ── STATE ─────────────────────────────────────────────────────────────────────
-let allResults     = [];
-let currentFilter  = 'all';
+let allResults    = [];
+let currentFilter = 'all';
 let jobTitleGlobal = '';
 
-// ── HEADER UPDATES ────────────────────────────────────────────────────────────
+// ── UI HELPERS ────────────────────────────────────────────────────────────────
 function updateHeader() {
   const code   = document.getElementById('jobCode').value.trim();
-  const stages = getSelectedStages();
-
-  document.getElementById('topbarJob').textContent     = code || 'Select a Job';
-  document.getElementById('pageTitle').textContent     = code ? 'Job: ' + code : 'Candidate Scorer';
-  document.getElementById('pageSubtitle').textContent  = code ? 'Scoring candidates for shortcode ' + code : 'Configure your job details to begin';
-  document.getElementById('stageSummary').textContent  = stages.length
-    ? stages.map(s => s.charAt(0).toUpperCase() + s.slice(1).replace('_', ' ')).join(' · ')
+  const stages = getStages();
+  document.getElementById('topbarJob').textContent    = code || 'Select a Job';
+  document.getElementById('pageTitle').textContent    = code ? 'Job: ' + code : 'Candidate Scorer';
+  document.getElementById('pageSubtitle').textContent = code ? 'Scoring candidates for ' + code : 'Configure your job details below to begin';
+  document.getElementById('stageSummary').textContent = stages.length
+    ? stages.map(s => s.replace('_',' ')).join(' · ')
     : 'No stages selected';
 }
 
-function getSelectedStages() {
+function getStages() {
   return Array.from(document.querySelectorAll('.stage-pill input:checked')).map(el => el.value);
 }
 
 function validateUrl(val) {
   const el = document.getElementById('urlInd');
-  if (!val) { el.textContent = '—'; el.className = 'url-indicator'; return; }
+  if (!val) { el.textContent = '—'; el.className = 'url-ind'; return; }
   if (val.includes('script.google.com/macros/s/') && val.endsWith('/exec')) {
-    el.innerHTML = '✓ Valid'; el.className = 'url-indicator ok';
+    el.textContent = '✓ Valid'; el.className = 'url-ind ok';
   } else {
-    el.innerHTML = '✗ Check URL'; el.className = 'url-indicator err';
+    el.textContent = '✗ Check URL'; el.className = 'url-ind err';
   }
 }
 
 function checkReady() {
-  const gas   = document.getElementById('gasUrl').value.trim();
-  const key   = document.getElementById('anthropicKey').value.trim();
-  const token = document.getElementById('workableToken').value.trim();
-  const code  = document.getElementById('jobCode').value.trim();
-  const jd    = document.getElementById('jd').value.trim();
-  const ready = gas && key && token && code && jd && getSelectedStages().length;
-  document.getElementById('runBtn').disabled = !ready;
+  const ok =
+    document.getElementById('gasUrl').value.trim() &&
+    document.getElementById('anthropicKey').value.trim() &&
+    document.getElementById('workableToken').value.trim() &&
+    document.getElementById('subdomain').value.trim() &&
+    document.getElementById('jobCode').value.trim() &&
+    document.getElementById('jd').value.trim() &&
+    getStages().length;
+  document.getElementById('runBtn').disabled = !ok;
 }
 
 function toggleConfig() {
   const body = document.getElementById('configBody');
   const tog  = document.getElementById('configToggle');
   const open = body.classList.toggle('open');
-  tog.classList.toggle('open', open);
-  tog.textContent = open ? '▲' : '▼';
+  tog.textContent = open ? '▲ Hide' : '▼ Show';
 }
 
-// ── LOGGING ───────────────────────────────────────────────────────────────────
 function log(msg, type) {
   const el   = document.getElementById('plog');
   const line = document.createElement('span');
-  line.className = 'll ' + (type || '');
+  line.className   = 'll ' + (type || '');
   line.textContent = msg;
   el.appendChild(line);
   el.scrollTop = el.scrollHeight;
@@ -909,135 +488,126 @@ function setProgress(cur, total, label) {
 }
 
 function showError(msg) {
-  const box = document.getElementById('errorBox');
   document.getElementById('errorMsg').textContent = msg;
-  box.classList.add('show');
+  document.getElementById('errorBox').classList.add('show');
 }
 function hideError() { document.getElementById('errorBox').classList.remove('show'); }
+
+function setStatus(text, cls) {
+  const el = document.getElementById('statusBadge');
+  el.textContent = text;
+  el.className   = 'status-badge ' + cls;
+}
+
+// ── CORE: call Apps Script (text/plain avoids CORS preflight) ─────────────────
+async function callGAS(payload) {
+  const gasUrl = document.getElementById('gasUrl').value.trim();
+  const resp   = await fetch(gasUrl, {
+    method : 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body   : JSON.stringify(payload)
+  });
+  if (!resp.ok) throw new Error('Apps Script returned HTTP ' + resp.status + '. Check your Web App URL.');
+  const data = await resp.json();
+  if (!data.ok) throw new Error(data.error);
+  return data.data;
+}
 
 // ── MAIN FLOW ─────────────────────────────────────────────────────────────────
 async function startScoring() {
   hideError();
   allResults = [];
 
-  const gasUrl       = document.getElementById('gasUrl').value.trim();
   const anthropicKey = document.getElementById('anthropicKey').value.trim();
   const subdomain    = document.getElementById('subdomain').value.trim();
   const wToken       = document.getElementById('workableToken').value.trim();
   const jobCode      = document.getElementById('jobCode').value.trim();
   const jd           = document.getElementById('jd').value.trim();
-  const stages       = getSelectedStages();
+  const stages       = getStages();
 
   // Lock UI
-  const runBtn = document.getElementById('runBtn');
-  runBtn.disabled = true;
-  document.getElementById('spinner').style.display  = 'inline-block';
-  document.getElementById('btnText').textContent    = 'Running…';
+  document.getElementById('runBtn').disabled          = true;
+  document.getElementById('spinner').style.display    = 'inline-block';
+  document.getElementById('btnText').textContent      = 'Running…';
   document.getElementById('progressCard').classList.add('show');
   document.getElementById('resultsSection').classList.remove('show');
-  document.getElementById('plog').innerHTML = '';
-  document.getElementById('statusBadge').textContent = '⏳ Running';
-  document.getElementById('statusBadge').className   = 'status-badge ready';
+  document.getElementById('plog').innerHTML           = '';
+  setStatus('⏳ Running', 'running');
   setProgress(0, 0, 'Connecting to Apps Script…');
 
   try {
-    // STEP 1 — Fetch candidates via Apps Script
-    log('📡 Fetching candidates from Workable via Apps Script…');
-
-    const gasResp = await fetch(gasUrl, {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({
-        action   : 'fetchCandidates',
-        subdomain: subdomain,
-        token    : wToken,
-        jobCode  : jobCode,
-        stages   : stages
-      })
+    // STEP 1 — fetch candidates
+    log('📡 Fetching candidates from Workable…');
+    const fetched = await callGAS({
+      action   : 'fetchCandidates',
+      subdomain: subdomain,
+      token    : wToken,
+      jobCode  : jobCode,
+      stages   : stages
     });
 
-    if (!gasResp.ok) {
-      const txt = await gasResp.text();
-      throw new Error('Apps Script HTTP ' + gasResp.status + ' — check your Web App URL and deployment settings. ' + txt.substring(0, 150));
-    }
+    jobTitleGlobal = fetched.jobTitle;
+    const enriched = fetched.candidates;
 
-    const gasData = await gasResp.json();
-    if (!gasData.ok) throw new Error('Apps Script error: ' + gasData.error);
-
-    jobTitleGlobal = gasData.data.jobTitle;
-    const enriched = gasData.data.candidates;
-
-    document.getElementById('pageTitle').textContent   = jobTitleGlobal;
-    document.getElementById('topbarJob').textContent   = jobTitleGlobal;
+    document.getElementById('pageTitle').textContent  = jobTitleGlobal;
+    document.getElementById('topbarJob').textContent  = jobTitleGlobal;
 
     log('✅ Job: "' + jobTitleGlobal + '"', 'ok');
-    log('✅ ' + enriched.length + ' candidates loaded across ' + stages.length + ' stage(s)', 'ok');
+    log('✅ ' + enriched.length + ' candidates loaded', 'ok');
     setProgress(enriched.length, enriched.length, 'Candidates loaded. Starting AI scoring…');
 
-    if (enriched.length === 0) {
-      throw new Error('No candidates found. Check the job shortcode and selected stages.');
-    }
+    if (!enriched.length) throw new Error('No candidates found. Check job shortcode and stages.');
 
-    // STEP 2 — Score in batches of 10 via Apps Script → Claude
-    const BATCH = 10;
+    // STEP 2 — score in batches of 10
+    const BATCH  = 10;
     const scored = [];
 
     for (let i = 0; i < enriched.length; i += BATCH) {
-      const batch   = enriched.slice(i, i + BATCH);
-      const end     = Math.min(i + BATCH, enriched.length);
-      const batchNo = Math.floor(i / BATCH) + 1;
+      const batch  = enriched.slice(i, i + BATCH);
+      const end    = Math.min(i + BATCH, enriched.length);
+      const batchN = Math.floor(i / BATCH) + 1;
 
-      setProgress(end, enriched.length, 'AI scoring ' + (i + 1) + '–' + end + ' of ' + enriched.length + '…');
-      log('🤖 Scoring batch ' + batchNo + ' (' + (i+1) + '–' + end + ')…');
+      setProgress(end, enriched.length, 'AI scoring ' + (i+1) + '–' + end + ' of ' + enriched.length + '…');
+      log('🤖 Scoring batch ' + batchN + ' (' + (i+1) + '–' + end + ')…');
 
-      const scoreResp = await fetch(gasUrl, {
-        method : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify({
-          action    : 'scoreCandidates',
-          candidates: batch,
-          jd        : jd,
-          apiKey    : anthropicKey
-        })
+      const results = await callGAS({
+        action    : 'scoreCandidates',
+        candidates: batch,
+        jd        : jd,
+        apiKey    : anthropicKey
       });
 
-      if (!scoreResp.ok) throw new Error('Scoring HTTP ' + scoreResp.status);
-      const scoreData = await scoreResp.json();
-      if (!scoreData.ok) throw new Error('Scoring error: ' + scoreData.error);
-
-      scoreData.data.forEach((r, idx) => {
+      results.forEach((r, idx) => {
         scored.push({
           seq        : i + idx + 1,
-          name       : batch[idx]?.name       || r.name       || '—',
+          name       : batch[idx]?.name       || r.name || '—',
           email      : batch[idx]?.email      || '—',
           designation: r.designation          || '—',
           score      : typeof r.score === 'number' ? r.score : parseInt(r.score) || 0,
           reason     : r.reason               || '—',
-          stage      : batch[idx]?.stage      || batch[idx]?.stageCategory || '—',
+          stage      : batch[idx]?.stage      || '—',
           resume_url : batch[idx]?.resume_url || ''
         });
       });
 
-      log('   ✅ Batch ' + batchNo + ' done', 'ok');
+      log('   ✅ Batch ' + batchN + ' done', 'ok');
       if (i + BATCH < enriched.length) await new Promise(r => setTimeout(r, 400));
     }
 
     allResults = scored;
     document.getElementById('tabCount').textContent = scored.length;
     log('🎉 Complete! ' + scored.length + ' candidates scored.', 'ok');
-    setProgress(enriched.length, enriched.length, '✅ Scoring complete — ' + scored.length + ' candidates');
-    document.getElementById('statusBadge').textContent = '✅ Complete';
-    document.getElementById('statusBadge').className   = 'status-badge open';
-
+    setProgress(enriched.length, enriched.length, '✅ Done — ' + scored.length + ' candidates scored');
+    setStatus('✅ Complete', 'complete');
     renderResults();
 
   } catch (err) {
     showError(err.message);
     log('❌ ' + err.message, 'err');
+    setStatus('❌ Error', 'error');
     console.error(err);
-    document.getElementById('statusBadge').textContent = '❌ Error';
   } finally {
-    runBtn.disabled = false;
+    document.getElementById('runBtn').disabled       = false;
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('btnText').textContent   = '▶ Run Scorer';
   }
@@ -1046,61 +616,30 @@ async function startScoring() {
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function stageClass(s) {
   const sl = (s || '').toLowerCase();
-  if (sl.includes('applied'))    return 'stage-applied';
-  if (sl.includes('hiring'))     return 'stage-hiring';
-  if (sl.includes('assessment')) return 'stage-assessment';
-  return 'stage-other';
+  if (sl.includes('applied'))    return 'sa';
+  if (sl.includes('hiring'))     return 'sh';
+  if (sl.includes('assessment')) return 'ss';
+  return 'so';
 }
-
 function scoreClass(s) {
-  if (s >= 65) return 'sp-green';
-  if (s >= 40) return 'sp-yellow';
-  return 'sp-red';
+  return s >= 65 ? 'spg' : s >= 40 ? 'spy' : 'spr';
 }
-
 function esc(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function renderResults(filter) {
-  if (filter) currentFilter = filter;
+function renderResults() {
   document.getElementById('resultsSection').classList.add('show');
-
   const strong   = allResults.filter(r => r.score >= 65).length;
   const moderate = allResults.filter(r => r.score >= 40 && r.score < 65).length;
   const weak     = allResults.filter(r => r.score < 40).length;
 
   document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card">
-      <div class="stat-icon total">👥</div>
-      <div class="stat-info">
-        <div class="stat-num" style="color:#1e40af">${allResults.length}</div>
-        <div class="stat-lbl">Total Candidates</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon green">🟢</div>
-      <div class="stat-info">
-        <div class="stat-num" style="color:#065f46">${strong}</div>
-        <div class="stat-lbl">Strong Fit (65+)</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon yellow">🟡</div>
-      <div class="stat-info">
-        <div class="stat-num" style="color:#92400e">${moderate}</div>
-        <div class="stat-lbl">Moderate (40–64)</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon red">🔴</div>
-      <div class="stat-info">
-        <div class="stat-num" style="color:#991b1b">${weak}</div>
-        <div class="stat-lbl">Weak Fit (&lt;40)</div>
-      </div>
-    </div>
+    <div class="stat-card"><div class="stat-icon t">👥</div><div><div class="stat-num" style="color:var(--blue-txt)">${allResults.length}</div><div class="stat-lbl">Total Candidates</div></div></div>
+    <div class="stat-card"><div class="stat-icon g">🟢</div><div><div class="stat-num" style="color:var(--green-txt)">${strong}</div><div class="stat-lbl">Strong Fit (65+)</div></div></div>
+    <div class="stat-card"><div class="stat-icon y">🟡</div><div><div class="stat-num" style="color:var(--yellow-txt)">${moderate}</div><div class="stat-lbl">Moderate (40–64)</div></div></div>
+    <div class="stat-card"><div class="stat-icon r">🔴</div><div><div class="stat-num" style="color:var(--red-txt)">${weak}</div><div class="stat-lbl">Weak Fit (&lt;40)</div></div></div>
   `;
-
   applySearch();
 }
 
@@ -1112,27 +651,25 @@ function filterTable(type, btn) {
 }
 
 function applySearch() {
-  const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
   const filtered = allResults.filter(r => {
-    const matchFilter =
-      currentFilter === 'all'      ? true :
+    const mf =
       currentFilter === 'strong'   ? r.score >= 65 :
       currentFilter === 'moderate' ? r.score >= 40 && r.score < 65 :
-      r.score < 40;
-    const matchSearch = !query ||
-      r.name.toLowerCase().includes(query) ||
-      r.designation.toLowerCase().includes(query) ||
-      r.reason.toLowerCase().includes(query);
-    return matchFilter && matchSearch;
+      currentFilter === 'weak'     ? r.score < 40 : true;
+    const ms = !q || r.name.toLowerCase().includes(q) ||
+      r.designation.toLowerCase().includes(q) ||
+      r.reason.toLowerCase().includes(q);
+    return mf && ms;
   });
 
-  if (filtered.length === 0) {
+  if (!filtered.length) {
     document.getElementById('tableBody').innerHTML = `
       <tr><td colspan="6">
         <div class="empty-state">
           <div class="empty-icon">🔍</div>
           <div class="empty-title">No candidates found</div>
-          <div class="empty-sub">Try adjusting your filter or search query</div>
+          <div class="empty-sub">Try a different filter or search term</div>
         </div>
       </td></tr>`;
     return;
@@ -1142,56 +679,36 @@ function applySearch() {
     const parts = r.designation.split(' at ');
     const title = parts[0] || r.designation;
     const comp  = parts[1] || '';
-    return `
-      <tr>
-        <td class="col-num">${r.seq}</td>
-        <td class="col-name">
-          <div class="candidate-name">${esc(r.name)}</div>
-          <div class="candidate-email">${esc(r.email)}</div>
-        </td>
-        <td class="col-desig">
-          <div class="desig-title">${esc(title)}</div>
-          ${comp ? '<div class="desig-company">' + esc(comp) + '</div>' : ''}
-        </td>
-        <td class="col-stage">
-          <span class="stage-tag ${stageClass(r.stage)}">${esc(r.stage)}</span>
-        </td>
-        <td class="col-score">
-          <span class="score-pill ${scoreClass(r.score)}">${r.score}</span>
-        </td>
-        <td><span class="reason-text">${esc(r.reason)}</span></td>
-      </tr>`;
+    return `<tr>
+      <td class="col-num">${r.seq}</td>
+      <td class="col-name"><div class="cname">${esc(r.name)}</div><div class="cemail">${esc(r.email)}</div></td>
+      <td class="col-desig"><div class="dtitle">${esc(title)}</div>${comp ? '<div class="dcomp">'+esc(comp)+'</div>' : ''}</td>
+      <td class="col-stage"><span class="stage-tag ${stageClass(r.stage)}">${esc(r.stage)}</span></td>
+      <td class="col-score"><span class="score-pill ${scoreClass(r.score)}">${r.score}</span></td>
+      <td><span class="reason">${esc(r.reason)}</span></td>
+    </tr>`;
   }).join('');
 }
 
-// ── XLSX DOWNLOAD ─────────────────────────────────────────────────────────────
+// ── XLSX ──────────────────────────────────────────────────────────────────────
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
-
-  const rows = [];
-  rows.push(['Candidate Scoring – ' + jobTitleGlobal]);
-  rows.push(['Scoring criteria derived from Job Description using Claude AI']);
+  const rows = [
+    ['Candidate Scoring – ' + jobTitleGlobal],
+    ['Scoring criteria auto-derived from Job Description using Claude AI'],
+    [],
+    ['#','Candidate Name','Email','Current Designation','Score / 100','Reason for Score','Stage']
+  ];
+  allResults.forEach(r => rows.push([r.seq, r.name, r.email, r.designation, r.score, r.reason, r.stage]));
   rows.push([]);
-  rows.push(['#', 'Candidate Name', 'Email', 'Current Designation', 'Score / 100', 'Reason for Score', 'Stage']);
-
-  allResults.forEach(r => {
-    rows.push([r.seq, r.name, r.email, r.designation, r.score, r.reason, r.stage]);
-  });
-
-  rows.push([]);
-  rows.push(['Legend:', '65–100: Strong Fit', '40–64: Moderate / Potential Fit', '0–39: Weak Fit / Not Aligned']);
+  rows.push(['Legend:','65–100: Strong Fit','40–64: Moderate / Potential Fit','0–39: Weak Fit / Not Aligned']);
 
   const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{ wch:4 }, { wch:24 }, { wch:28 }, { wch:32 }, { wch:10 }, { wch:68 }, { wch:14 }];
-  ws['!merges'] = [
-    { s:{r:0,c:0}, e:{r:0,c:6} },
-    { s:{r:1,c:0}, e:{r:1,c:6} }
-  ];
-
+  ws['!cols'] = [{wch:4},{wch:24},{wch:28},{wch:32},{wch:10},{wch:68},{wch:14}];
+  ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:6}},{s:{r:1,c:0},e:{r:1,c:6}}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Candidate Scores');
-  const safe = jobTitleGlobal.replace(/[^a-z0-9]/gi, '_').substring(0, 30);
-  XLSX.utils.writeFile(wb, 'Candidate_Scores_' + safe + '.xlsx');
+  XLSX.utils.writeFile(wb, 'Candidate_Scores_' + jobTitleGlobal.replace(/[^a-z0-9]/gi,'_').substring(0,30) + '.xlsx');
 }
 </script>
 </body>
