@@ -42,14 +42,13 @@
 
   .sidebar { width: 220px; min-height: 100vh; background: var(--sidebar); display: flex; flex-direction: column; flex-shrink: 0; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
   .sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
-  .sidebar-logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .sidebar-logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; }
   .sidebar-logo-text { font-size: 15px; font-weight: 600; color: var(--sidebar-a); }
   .sidebar-section { padding: 20px 12px 8px; }
   .sidebar-section-label { font-size: 10px; font-weight: 600; color: var(--sidebar-m); letter-spacing: 0.8px; text-transform: uppercase; padding: 0 8px; margin-bottom: 4px; }
   .sidebar-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 6px; font-size: 13px; color: var(--sidebar-t); cursor: pointer; transition: all 0.15s; margin-bottom: 1px; }
   .sidebar-item:hover { background: rgba(255,255,255,0.07); color: var(--sidebar-a); }
   .sidebar-item.active { background: rgba(255,255,255,0.12); color: var(--sidebar-a); font-weight: 500; }
-  .sidebar-item .icon { font-size: 14px; width: 18px; text-align: center; }
 
   .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
@@ -126,7 +125,7 @@
 
   .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 18px; }
   .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
-  .stat-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .stat-icon { width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0; }
   .stat-icon.t { background: var(--blue-bg); }
   .stat-icon.g { background: var(--green-bg); }
   .stat-icon.y { background: var(--yellow-bg); }
@@ -145,11 +144,10 @@
   .fpill.active { background: var(--text); color: white; border-color: var(--text); }
 
   .search-wrap { position: relative; }
-  .search-wrap input { border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 12px 7px 30px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; background: var(--bg); width: 190px; transition: border-color 0.15s; }
+  .search-wrap input { border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 12px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; background: var(--bg); width: 190px; transition: border-color 0.15s; }
   .search-wrap input:focus { border-color: var(--accent); background: white; }
-  .search-wrap::before { content: 'S'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--muted2); pointer-events: none; font-weight: 600; }
 
-  .dl-btn { background: var(--accent); color: white; border: none; border-radius: var(--radius); padding: 7px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.15s; }
+  .dl-btn { background: var(--accent); color: white; border: none; border-radius: var(--radius); padding: 7px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: background 0.15s; }
   .dl-btn:hover { background: var(--accent-hov); }
 
   .table-wrap { overflow-x: auto; }
@@ -213,10 +211,10 @@
   </div>
   <div class="sidebar-section">
     <div class="sidebar-section-label">Main</div>
-    <div class="sidebar-item"><span class="icon"></span> Dashboard</div>
-    <div class="sidebar-item active"><span class="icon"></span> Jobs</div>
-    <div class="sidebar-item"><span class="icon"></span> Candidates</div>
-    <div class="sidebar-item"><span class="icon"></span> Insights</div>
+    <div class="sidebar-item">Dashboard</div>
+    <div class="sidebar-item active">Jobs</div>
+    <div class="sidebar-item">Candidates</div>
+    <div class="sidebar-item">Insights</div>
   </div>
 </aside>
 
@@ -275,8 +273,8 @@
         <div class="fg2">
           <div class="field">
             <label>Job ID</label>
-            <input type="text" id="jobCode" placeholder="e.g. 8E672EB19D" oninput="updateHeader()" onchange="checkReady()">
-            <div class="field-hint">Found in the Workable job URL — e.g. /jobs/8E672EB19D/</div>
+            <input type="text" id="jobCode" placeholder="e.g. 5820806" oninput="updateHeader()" onchange="checkReady()">
+            <div class="field-hint">Found in the Workable URL — e.g. /backend/jobs/5820806/edit</div>
           </div>
           <div class="field">
             <label>Stages to Include</label>
@@ -376,9 +374,9 @@ function updateHeader() {
 
 function getStages() {
   var checked = document.querySelectorAll('.stage-pill input:checked');
-  var stages  = [];
-  for (var i = 0; i < checked.length; i++) stages.push(checked[i].value);
-  return stages;
+  var out = [];
+  for (var i = 0; i < checked.length; i++) out.push(checked[i].value);
+  return out;
 }
 
 function checkReady() {
@@ -529,7 +527,7 @@ function filterTable(type, btn) {
 }
 
 function getFiltered() {
-  var q = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').toLowerCase();
+  var q = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
   return allResults.filter(function(r) {
     var mf = currentFilter === 'strong'   ? r.score >= 65 :
              currentFilter === 'moderate' ? r.score >= 40 && r.score < 65 :
@@ -571,15 +569,10 @@ function applySearch() {
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
 
-  var filtered = getFiltered();
-  if (!filtered.length) { alert('No candidates match the current filter.'); return; }
-
   if (typeof XLSX === 'undefined') {
-    alert('Excel library failed to load. Please refresh the page and try again.');
+    alert('Excel library not loaded. Please refresh the page and try again.');
     return;
   }
-  // ... rest of function
-  if (!allResults.length) { alert('No results to download yet.'); return; }
 
   var filtered = getFiltered();
   if (!filtered.length) { alert('No candidates match the current filter.'); return; }
