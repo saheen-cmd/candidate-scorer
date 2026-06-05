@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Candidate Scorer</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <style>
   :root {
     --bg        : #f5f4ef;
@@ -569,6 +569,16 @@ function applySearch() {
 }
 
 function downloadXLSX() {
+  if (!allResults.length) { alert('No results to download yet.'); return; }
+
+  var filtered = getFiltered();
+  if (!filtered.length) { alert('No candidates match the current filter.'); return; }
+
+  if (typeof XLSX === 'undefined') {
+    alert('Excel library failed to load. Please refresh the page and try again.');
+    return;
+  }
+  // ... rest of function
   if (!allResults.length) { alert('No results to download yet.'); return; }
 
   var filtered = getFiltered();
