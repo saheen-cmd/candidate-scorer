@@ -99,12 +99,6 @@
   .field textarea { min-height: 150px; resize: vertical; }
   .field-hint { font-size: 11px; color: var(--muted2); }
 
-  .url-wrap { position: relative; }
-  .url-wrap input { padding-right: 90px; }
-  .url-ind { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 500; color: var(--muted2); }
-  .url-ind.ok  { color: #15803d; }
-  .url-ind.err { color: #dc2626; }
-
   .stage-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
   .stage-pill { display: flex; align-items: center; gap: 5px; padding: 6px 13px; border: 1px solid var(--border2); border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; user-select: none; color: var(--muted); }
   .stage-pill input { display: none; }
@@ -153,7 +147,7 @@
   .search-wrap { position: relative; }
   .search-wrap input { border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 12px 7px 30px; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; background: var(--bg); width: 190px; transition: border-color 0.15s; }
   .search-wrap input:focus { border-color: var(--accent); background: white; }
-  .search-wrap::before { content: '🔍'; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 11px; pointer-events: none; }
+  .search-wrap::before { content: 'S'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--muted2); pointer-events: none; font-weight: 600; }
 
   .dl-btn { background: var(--accent); color: white; border: none; border-radius: var(--radius); padding: 7px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.15s; }
   .dl-btn:hover { background: var(--accent-hov); }
@@ -191,7 +185,6 @@
   .reason { color: var(--muted); font-size: 12px; line-height: 1.6; }
 
   .empty-state { text-align: center; padding: 44px 24px; color: var(--muted); }
-  .empty-icon  { font-size: 28px; margin-bottom: 10px; }
   .empty-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
   .empty-sub   { font-size: 12px; }
 
@@ -236,10 +229,10 @@
       Candidates
     </div>
     <div class="topbar-right">
-      <button class="topbar-btn" onclick="toggleConfig()">⚙ Configure</button>
+      <button class="topbar-btn" onclick="toggleConfig()">Configure</button>
       <button class="topbar-btn primary" id="runBtn" onclick="startScoring()" disabled>
         <span class="spin" id="spinner"></span>
-        <span id="btnText">▶ Run Scorer</span>
+        <span id="btnText">Run Scorer</span>
       </button>
       <div class="avatar">LK</div>
     </div>
@@ -257,7 +250,7 @@
             <span id="stageSummary">No stages selected</span>
           </div>
         </div>
-        <span class="status-badge ready" id="statusBadge">⚡ Ready</span>
+        <span class="status-badge ready" id="statusBadge">Ready</span>
       </div>
       <div class="tabs">
         <div class="tab-item active">Candidates <span class="tab-count" id="tabCount">0</span></div>
@@ -271,33 +264,19 @@
     <div class="config-panel" id="configPanel">
       <div class="config-header" onclick="toggleConfig()">
         <div>
-          <h3>⚙ Scorer Configuration</h3>
-          <p>Enter Apps Script URL, job shortcode, stages, and job description</p>
+          <h3>Scorer Configuration</h3>
+          <p>Enter job ID, stages, and job description</p>
         </div>
-        <div class="config-toggle" id="configToggle">▲ Hide</div>
+        <div class="config-toggle" id="configToggle">Hide</div>
       </div>
       <div class="config-body open" id="configBody">
-
-        <div class="section-title">Apps Script Web App</div>
-        <div class="fg1">
-          <div class="field">
-            <label>Google Apps Script Web App URL</label>
-            <div class="url-wrap">
-              <input type="text" id="gasUrl"
-                placeholder="https://script.google.com/macros/s/AKfycb.../exec"
-                oninput="validateUrl(this.value)" onchange="checkReady()">
-              <div class="url-ind" id="urlInd">—</div>
-            </div>
-            <div class="field-hint">Deploy WebApp.gs → Execute as Me → Who has access: Anyone</div>
-          </div>
-        </div>
 
         <div class="section-title">Job Details</div>
         <div class="fg2">
           <div class="field">
-            <label>Job Shortcode</label>
-            <input type="text" id="jobCode" placeholder="e.g. F7FF51014B" oninput="updateHeader()" onchange="checkReady()">
-            <div class="field-hint">Found in the Workable job URL</div>
+            <label>Job ID</label>
+            <input type="text" id="jobCode" placeholder="e.g. 8E672EB19D" oninput="updateHeader()" onchange="checkReady()">
+            <div class="field-hint">Found in the Workable job URL — e.g. /jobs/8E672EB19D/</div>
           </div>
           <div class="field">
             <label>Stages to Include</label>
@@ -317,7 +296,7 @@
         </div>
 
         <div class="error-box" id="errorBox">
-          <span>⚠</span><span id="errorMsg"></span>
+          <span>Warning:</span><span id="errorMsg"></span>
         </div>
 
       </div>
@@ -325,7 +304,7 @@
 
     <div class="progress-card" id="progressCard">
       <div class="progress-top">
-        <div class="progress-label" id="progressLabel">Initialising…</div>
+        <div class="progress-label" id="progressLabel">Initialising...</div>
         <div class="progress-pct" id="progressPct"></div>
       </div>
       <div class="pbar"><div class="pbar-inner" id="pbar"></div></div>
@@ -336,18 +315,18 @@
       <div class="stats-grid" id="statsGrid"></div>
       <div class="table-card">
         <div class="table-toolbar">
-          <div class="table-title">All Candidates</div>
+          <div class="table-title" id="tableTitle">All Candidates</div>
           <div class="toolbar-right">
             <div class="filter-pills">
               <button class="fpill active" onclick="filterTable('all',this)">All</button>
-              <button class="fpill" onclick="filterTable('strong',this)">🟢 Strong</button>
-              <button class="fpill" onclick="filterTable('moderate',this)">🟡 Moderate</button>
-              <button class="fpill" onclick="filterTable('weak',this)">🔴 Weak</button>
+              <button class="fpill" onclick="filterTable('strong',this)">Strong Fit</button>
+              <button class="fpill" onclick="filterTable('moderate',this)">Moderate</button>
+              <button class="fpill" onclick="filterTable('weak',this)">Weak Fit</button>
             </div>
             <div class="search-wrap">
-              <input type="text" id="searchInput" placeholder="Search candidates…" oninput="applySearch()">
+              <input type="text" id="searchInput" placeholder="Search candidates..." oninput="applySearch()">
             </div>
-            <button class="dl-btn" onclick="downloadXLSX()">⬇ Export XLSX</button>
+            <button class="dl-btn" onclick="downloadXLSX()">Export XLSX</button>
           </div>
         </div>
         <div class="table-wrap">
@@ -366,9 +345,9 @@
           </table>
         </div>
         <div class="legend">
-          <div class="legend-item"><div class="ldot" style="background:#d1fae5"></div>65–100 Strong Fit</div>
-          <div class="legend-item"><div class="ldot" style="background:#fef3c7"></div>40–64 Moderate Fit</div>
-          <div class="legend-item"><div class="ldot" style="background:#fee2e2"></div>0–39 Weak Fit</div>
+          <div class="legend-item"><div class="ldot" style="background:#d1fae5"></div>65-100 Strong Fit</div>
+          <div class="legend-item"><div class="ldot" style="background:#fef3c7"></div>40-64 Moderate Fit</div>
+          <div class="legend-item"><div class="ldot" style="background:#fee2e2"></div>0-39 Weak Fit</div>
         </div>
       </div>
     </div>
@@ -377,6 +356,9 @@
 </div>
 
 <script>
+// ── HARDCODED GAS URL — update this when you redeploy Apps Script ─────────────
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxw_9W54PFvpUKKpyppP-Ot9edvu3tLKCup775-NjlAn-sFflFN2GtAwGqlmf1qmKXkYg/exec';
+
 var allResults     = [];
 var currentFilter  = 'all';
 var jobTitleGlobal = '';
@@ -386,9 +368,9 @@ function updateHeader() {
   var stages = getStages();
   document.getElementById('topbarJob').textContent    = code || 'Select a Job';
   document.getElementById('pageTitle').textContent    = code ? 'Job: ' + code : 'Candidate Scorer';
-  document.getElementById('pageSubtitle').textContent = code ? 'Scoring candidates for ' + code : 'Configure your job details below to begin';
+  document.getElementById('pageSubtitle').textContent = code ? 'Scoring candidates for Job ID ' + code : 'Configure your job details below to begin';
   document.getElementById('stageSummary').textContent = stages.length
-    ? stages.map(function(s){ return s.replace('_',' '); }).join(' · ')
+    ? stages.map(function(s){ return s.replace('_',' '); }).join(' / ')
     : 'No stages selected';
 }
 
@@ -399,19 +381,8 @@ function getStages() {
   return stages;
 }
 
-function validateUrl(val) {
-  var el = document.getElementById('urlInd');
-  if (!val) { el.textContent = '—'; el.className = 'url-ind'; return; }
-  if (val.indexOf('script.google.com/macros/s/') !== -1 && val.slice(-5) === '/exec') {
-    el.textContent = '✓ Valid'; el.className = 'url-ind ok';
-  } else {
-    el.textContent = '✗ Check URL'; el.className = 'url-ind err';
-  }
-}
-
 function checkReady() {
   var ok =
-    document.getElementById('gasUrl').value.trim() &&
     document.getElementById('jobCode').value.trim() &&
     document.getElementById('jd').value.trim() &&
     getStages().length;
@@ -422,7 +393,7 @@ function toggleConfig() {
   var body = document.getElementById('configBody');
   var tog  = document.getElementById('configToggle');
   var open = body.classList.toggle('open');
-  tog.textContent = open ? '▲ Hide' : '▼ Show';
+  tog.textContent = open ? 'Hide' : 'Show';
 }
 
 function log(msg, type) {
@@ -455,32 +426,30 @@ function setStatus(text, cls) {
 function unlockUI() {
   document.getElementById('runBtn').disabled       = false;
   document.getElementById('spinner').style.display = 'none';
-  document.getElementById('btnText').textContent   = '▶ Run Scorer';
+  document.getElementById('btnText').textContent   = 'Run Scorer';
 }
 
 async function startScoring() {
   hideError();
   allResults = [];
 
-  var gasUrl  = document.getElementById('gasUrl').value.trim();
   var jobCode = document.getElementById('jobCode').value.trim();
   var jd      = document.getElementById('jd').value.trim();
   var stages  = getStages();
 
   document.getElementById('runBtn').disabled          = true;
   document.getElementById('spinner').style.display    = 'inline-block';
-  document.getElementById('btnText').textContent      = 'Running…';
+  document.getElementById('btnText').textContent      = 'Running...';
   document.getElementById('progressCard').classList.add('show');
   document.getElementById('resultsSection').classList.remove('show');
   document.getElementById('plog').innerHTML           = '';
-  setStatus('⏳ Running', 'running');
-  setProgress(0, 100, 'Connecting to Apps Script…');
+  setStatus('Running', 'running');
+  setProgress(0, 100, 'Connecting to Apps Script...');
 
-  log('📡 Fetching and scoring via Apps Script…');
-  log('   Job: ' + jobCode + ' | Stages: ' + stages.join(', '));
+  log('Fetching and scoring via Apps Script...');
+  log('Job ID: ' + jobCode + ' | Stages: ' + stages.join(', '));
 
   try {
-    // Use no-cors mode via form-encoded body to bypass preflight
     var formData = new URLSearchParams();
     formData.append('payload', JSON.stringify({
       action : 'fetchAndScore',
@@ -489,7 +458,7 @@ async function startScoring() {
       jd     : jd
     }));
 
-    var resp = await fetch(gasUrl, {
+    var resp = await fetch(GAS_URL, {
       method : 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body   : formData.toString()
@@ -507,16 +476,16 @@ async function startScoring() {
     document.getElementById('topbarJob').textContent  = jobTitleGlobal;
     document.getElementById('tabCount').textContent   = allResults.length;
 
-    log('✅ Job: "' + jobTitleGlobal + '"', 'ok');
-    log('✅ ' + allResults.length + ' candidates scored', 'ok');
-    setProgress(100, 100, '✅ Done — ' + allResults.length + ' candidates scored');
-    setStatus('✅ Complete', 'complete');
+    log('Job: ' + jobTitleGlobal, 'ok');
+    log(allResults.length + ' candidates scored', 'ok');
+    setProgress(100, 100, 'Done — ' + allResults.length + ' candidates scored');
+    setStatus('Complete', 'complete');
     renderResults();
 
   } catch(err) {
     showError(err.message);
-    log('❌ ' + err.message, 'err');
-    setStatus('❌ Error', 'error');
+    log('Error: ' + err.message, 'err');
+    setStatus('Error', 'error');
   } finally {
     unlockUI();
   }
@@ -541,10 +510,10 @@ function renderResults() {
   var weak     = allResults.filter(function(r){ return r.score < 40; }).length;
 
   document.getElementById('statsGrid').innerHTML =
-    '<div class="stat-card"><div class="stat-icon t">👥</div><div><div class="stat-num" style="color:var(--blue-txt)">' + allResults.length + '</div><div class="stat-lbl">Total Candidates</div></div></div>' +
-    '<div class="stat-card"><div class="stat-icon g">🟢</div><div><div class="stat-num" style="color:var(--green-txt)">' + strong + '</div><div class="stat-lbl">Strong Fit (65+)</div></div></div>' +
-    '<div class="stat-card"><div class="stat-icon y">🟡</div><div><div class="stat-num" style="color:var(--yellow-txt)">' + moderate + '</div><div class="stat-lbl">Moderate (40–64)</div></div></div>' +
-    '<div class="stat-card"><div class="stat-icon r">🔴</div><div><div class="stat-num" style="color:var(--red-txt)">' + weak + '</div><div class="stat-lbl">Weak Fit (&lt;40)</div></div></div>';
+    '<div class="stat-card"><div class="stat-icon t"></div><div><div class="stat-num" style="color:var(--blue-txt)">' + allResults.length + '</div><div class="stat-lbl">Total Candidates</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon g"></div><div><div class="stat-num" style="color:var(--green-txt)">' + strong + '</div><div class="stat-lbl">Strong Fit (65+)</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon y"></div><div><div class="stat-num" style="color:var(--yellow-txt)">' + moderate + '</div><div class="stat-lbl">Moderate (40-64)</div></div></div>' +
+    '<div class="stat-card"><div class="stat-icon r"></div><div><div class="stat-num" style="color:var(--red-txt)">' + weak + '</div><div class="stat-lbl">Weak Fit (below 40)</div></div></div>';
 
   applySearch();
 }
@@ -554,12 +523,14 @@ function filterTable(type, btn) {
   var pills = document.querySelectorAll('.fpill');
   for (var i = 0; i < pills.length; i++) pills[i].classList.remove('active');
   btn.classList.add('active');
+  var titles = { all: 'All Candidates', strong: 'Strong Fit Candidates', moderate: 'Moderate Fit Candidates', weak: 'Weak Fit Candidates' };
+  document.getElementById('tableTitle').textContent = titles[type] || 'All Candidates';
   applySearch();
 }
 
-function applySearch() {
+function getFiltered() {
   var q = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').toLowerCase();
-  var filtered = allResults.filter(function(r) {
+  return allResults.filter(function(r) {
     var mf = currentFilter === 'strong'   ? r.score >= 65 :
              currentFilter === 'moderate' ? r.score >= 40 && r.score < 65 :
              currentFilter === 'weak'     ? r.score < 40 : true;
@@ -569,13 +540,15 @@ function applySearch() {
       r.reason.toLowerCase().indexOf(q) !== -1;
     return mf && ms;
   });
+}
 
+function applySearch() {
+  var filtered = getFiltered();
   if (!filtered.length) {
     document.getElementById('tableBody').innerHTML =
-      '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No candidates found</div><div class="empty-sub">Try a different filter or search term</div></div></td></tr>';
+      '<tr><td colspan="6"><div class="empty-state"><div class="empty-title">No candidates found</div><div class="empty-sub">Try a different filter or search term</div></div></td></tr>';
     return;
   }
-
   var rows = '';
   for (var i = 0; i < filtered.length; i++) {
     var r     = filtered[i];
@@ -597,25 +570,39 @@ function applySearch() {
 
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
+
+  var filtered = getFiltered();
+  if (!filtered.length) { alert('No candidates match the current filter.'); return; }
+
+  var filterLabel = currentFilter === 'strong'   ? 'Strong Fit'   :
+                    currentFilter === 'moderate' ? 'Moderate Fit' :
+                    currentFilter === 'weak'     ? 'Weak Fit'     : 'All';
+
   var rows = [
-    ['Candidate Scoring – ' + jobTitleGlobal],
+    ['Candidate Scoring: ' + jobTitleGlobal + ' (' + filterLabel + ')'],
     ['Scoring criteria auto-derived from Job Description using Claude AI'],
     [],
-    ['#','Candidate Name','Email','Current Designation','Score / 100','Reason for Score','Stage']
+    ['#', 'Candidate Name', 'Email', 'Current Designation', 'Score / 100', 'Reason for Score', 'Stage']
   ];
-  for (var i = 0; i < allResults.length; i++) {
-    var r = allResults[i];
+
+  for (var i = 0; i < filtered.length; i++) {
+    var r = filtered[i];
     rows.push([r.seq, r.name, r.email, r.designation, r.score, r.reason, r.stage]);
   }
+
   rows.push([]);
-  rows.push(['Legend:','65–100: Strong Fit','40–64: Moderate / Potential Fit','0–39: Weak Fit / Not Aligned']);
+  rows.push(['Legend:', '65-100: Strong Fit', '40-64: Moderate Fit', '0-39: Weak Fit']);
 
   var ws = XLSX.utils.aoa_to_sheet(rows);
   ws['!cols'] = [{wch:4},{wch:24},{wch:28},{wch:32},{wch:10},{wch:68},{wch:14}];
   ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:6}},{s:{r:1,c:0},e:{r:1,c:6}}];
+
   var wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Candidate Scores');
-  XLSX.utils.writeFile(wb, 'Candidate_Scores_' + jobTitleGlobal.replace(/[^a-z0-9]/gi,'_').substring(0,30) + '.xlsx');
+
+  var safeName   = jobTitleGlobal.replace(/[^a-z0-9]/gi,'_').substring(0,25);
+  var safeFilter = filterLabel.replace(' ','_');
+  XLSX.utils.writeFile(wb, 'Scores_' + safeName + '_' + safeFilter + '.xlsx');
 }
 </script>
 </body>
