@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Candidate Scorer</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <style>
   :root {
     --bg        : #f5f4ef;
@@ -227,7 +226,7 @@
       Candidates
     </div>
     <div class="topbar-right">
-      <button class="topbar-btn" onclick="toggleConfig()">Configure</button>
+      <button class="dl-btn" onclick="downloadXLSX()">Export CSV</button>
       <button class="topbar-btn primary" id="runBtn" onclick="startScoring()" disabled>
         <span class="spin" id="spinner"></span>
         <span id="btnText">Run Scorer</span>
