@@ -685,6 +685,7 @@ function applySearch() {
 }
 
 // ── FORMATTED XLSX EXPORT ─────────────────────────────────────────────────────
+// ── FORMATTED XLSX EXPORT ─────────────────────────────────────────────────────
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
   if (typeof XLSX === 'undefined') { alert('Excel library not loaded. Please refresh and try again.'); return; }
@@ -699,33 +700,33 @@ function downloadXLSX() {
   var titleText    = 'Candidate Scoring – ' + jobTitleGlobal;
   var criteriaText = 'Scoring criteria derived from the Job Description: experience relevance, skill match, domain background, role-specific responsibilities, seniority alignment, strongest signal and critical gap assessed per candidate.';
 
-  // Build sheet data
+  // Build sheet data — Email now in column C, everything after shifts right
   var aoa = [
-    [titleText,    '', '', '', ''],   // row 1  — title banner
-    [criteriaText, '', '', '', ''],   // row 2  — criteria note
-    ['', '', '', '', ''],             // row 3  — spacer
-    ['#', 'Candidate Name', 'Current Designation', 'Score / 100', 'Reason for Score'] // row 4 header
+    [titleText,    '', '', '', '', ''],   // row 1  — title banner
+    [criteriaText, '', '', '', '', ''],   // row 2  — criteria note
+    ['', '', '', '', '', ''],             // row 3  — spacer
+    ['#', 'Candidate Name', 'Email', 'Current Designation', 'Score / 100', 'Reason for Score'] // row 4 header
   ];
 
   for (var i = 0; i < filtered.length; i++) {
     var r = filtered[i];
-    aoa.push([r.seq, r.name, r.designation, r.score, r.reason]);
+    aoa.push([r.seq, r.name, r.email, r.designation, r.score, r.reason]);
   }
 
   var dataEnd = 4 + filtered.length; // last data row (1-indexed)
-  aoa.push(['', '', '', '', '']);     // spacer
+  aoa.push(['', '', '', '', '', '']);     // spacer
   var legendRow = dataEnd + 2;
-  aoa.push(['Legend:', '65-100: Strong Fit', '40-64: Moderate / Potential Fit', '0-39: Weak Fit / Not Aligned', '']);
+  aoa.push(['Legend:', '65-100: Strong Fit', '40-64: Moderate / Potential Fit', '0-39: Weak Fit / Not Aligned', '', '']);
 
   var ws = XLSX.utils.aoa_to_sheet(aoa);
 
-  // Column widths
-  ws['!cols'] = [{ wch:5 }, { wch:26 }, { wch:34 }, { wch:12 }, { wch:68 }];
+  // Column widths (A–F)
+  ws['!cols'] = [{ wch:5 }, { wch:26 }, { wch:30 }, { wch:34 }, { wch:12 }, { wch:68 }];
 
-  // Merges: A1:E1 and A2:E2
+  // Merges: A1:F1 and A2:F2
   ws['!merges'] = [
-    { s:{ r:0, c:0 }, e:{ r:0, c:4 } },
-    { s:{ r:1, c:0 }, e:{ r:1, c:4 } }
+    { s:{ r:0, c:0 }, e:{ r:0, c:5 } },
+    { s:{ r:1, c:0 }, e:{ r:1, c:5 } }
   ];
 
   // Row heights
@@ -754,13 +755,13 @@ function downloadXLSX() {
     alignment: { horizontal:'left', vertical:'center', wrapText:true }
   };
 
-  // Row 4 — header
+  // Row 4 — header (A–F)
   var hdrStyle = {
     fill: { fgColor: { rgb:'1F3864' } },
     font: { bold:true, color:{ rgb:'FFFFFF' }, sz:11, name:'Arial' },
     alignment: { horizontal:'center', vertical:'center', wrapText:true }
   };
-  ['A4','B4','C4','D4','E4'].forEach(function(a){ sc(a).s = hdrStyle; });
+  ['A4','B4','C4','D4','E4','F4'].forEach(function(a){ sc(a).s = hdrStyle; });
 
   // Data rows
   function fillForScore(s) {
@@ -775,13 +776,14 @@ function downloadXLSX() {
 
     sc('A' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'center', vertical:'top' } };
     sc('B' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } };
-    sc('C' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } };
-    sc('D' + row).s = {
+    sc('C' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Email
+    sc('D' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Designation
+    sc('E' + row).s = {
       fill: { fgColor:{ rgb: fillForScore(score) } },
       font: { bold:true, name:'Arial', sz:11 },
       alignment: { horizontal:'center', vertical:'center' }
-    };
-    sc('E' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } };
+    }; // Score
+    sc('F' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Reason
   }
 
   // Legend row
