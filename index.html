@@ -356,10 +356,29 @@
 <script>
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbxw_9W54PFvpUKKpyppP-Ot9edvu3tLKCup775-NjlAn-sFflFN2GtAwGqlmf1qmKXkYg/exec';
 
+// How many candidates each scoreBatch call handles. Smaller = safer against the
+// 6-minute Apps Script limit but more round trips. 20 is a good middle.
+var CHUNK_SIZE = 20;
+
 var allResults      = [];
 var currentFilter   = 'all';
 var jobTitleGlobal  = '';
 var availableStages = [];   // loaded live from Workable via Apps Script: [{slug, name, kind, position}]
+
+// ── SHARED POST HELPER ────────────────────────────────────────────────────────
+async function postGAS(payloadObj) {
+  var formData = new URLSearchParams();
+  formData.append('payload', JSON.stringify(payloadObj));
+  var resp = await fetch(GAS_URL, {
+    method : 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body   : formData.toString()
+  });
+  if (!resp.ok) throw new Error('Apps Script HTTP ' + resp.status);
+  var data = await resp.json();
+  if (!data.ok) throw new Error(data.error);
+  return data.data;
+}
 
 // ── DYNAMIC STAGES ────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', loadStages);
@@ -369,20 +388,8 @@ async function loadStages() {
   var pills = document.getElementById('stagePills');
   pills.innerHTML = '<span class="field-hint">Loading stages from Workable...</span>';
   try {
-    var formData = new URLSearchParams();
-    formData.append('payload', JSON.stringify({ action: 'getStages' }));
-
-    var resp = await fetch(GAS_URL, {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body   : formData.toString()
-    });
-    if (!resp.ok) throw new Error('Apps Script HTTP ' + resp.status);
-
-    var data = await resp.json();
-    if (!data.ok) throw new Error(data.error);
-
-    availableStages = data.data.stages || [];
+    var data = await postGAS({ action: 'getStages' });
+    availableStages = data.stages || [];
     // Open DevTools console to see the real stage slugs in your Workable account:
     console.log('Workable stages available:', JSON.stringify(availableStages, null, 2));
     renderStagePills();
@@ -542,7 +549,7 @@ function unlockUI() {
   document.getElementById('btnText').textContent   = 'Run Scorer';
 }
 
-// ── SCORING ───────────────────────────────────────────────────────────────────
+// ── SCORING (batched) ─────────────────────────────────────────────────────────
 async function startScoring() {
   hideError();
   allResults = [];
@@ -558,47 +565,58 @@ async function startScoring() {
   document.getElementById('resultsSection').classList.remove('show');
   document.getElementById('plog').innerHTML           = '';
   setStatus('Running', 'running');
-  setProgress(0, 100, 'Connecting to Apps Script...');
+  setProgress(0, 100, 'Fetching candidate list...');
 
-  log('Fetching and scoring via Apps Script...');
   log('Job ID: ' + jobCode);
   log('Stage slugs: ' + stages.join(', '));
 
   try {
-    var formData = new URLSearchParams();
-    formData.append('payload', JSON.stringify({
-      action : 'fetchAndScore',
-      jobCode: jobCode,
-      stages : stages,
-      jd     : jd
-    }));
+    // ── Step 1: fetch the candidate list (fast, no scoring) ──────────────────
+    var list       = await postGAS({ action: 'fetchCandidates', jobCode: jobCode, stages: stages });
+    jobTitleGlobal = list.jobTitle;
+    var candidates = list.candidates || [];
 
-    var resp = await fetch(GAS_URL, {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body   : formData.toString()
-    });
-
-    if (!resp.ok) throw new Error('Apps Script HTTP ' + resp.status);
-
-    var data = await resp.json();
-    if (!data.ok) throw new Error(data.error);
-
-    jobTitleGlobal = data.data.jobTitle;
-    allResults     = data.data.candidates;
-
-    // ── Update page title to actual role name ────────────────────────────────
-    document.getElementById('pageTitle').textContent  = jobTitleGlobal;
-    document.getElementById('topbarJob').textContent  = jobTitleGlobal;
-    document.getElementById('tabCount').textContent   = allResults.length;
-
+    document.getElementById('pageTitle').textContent = jobTitleGlobal;
+    document.getElementById('topbarJob').textContent = jobTitleGlobal;
     log('Job: ' + jobTitleGlobal, 'ok');
-    log(allResults.length + ' candidates scored', 'ok');
-    setProgress(100, 100, 'Done — ' + allResults.length + ' candidates scored');
+    log(candidates.length + ' candidates found', 'ok');
+
+    if (!candidates.length) {
+      setProgress(0, 0, 'No candidates found');
+      setStatus('Complete', 'complete');
+      document.getElementById('tabCount').textContent = 0;
+      renderResults();
+      return;
+    }
+
+    // ── Step 2: score in chunks ──────────────────────────────────────────────
+    for (var i = 0; i < candidates.length; i += CHUNK_SIZE) {
+      var batch = candidates.slice(i, i + CHUNK_SIZE);
+      var to    = Math.min(i + CHUNK_SIZE, candidates.length);
+      setProgress(allResults.length, candidates.length,
+        'Scoring ' + (i + 1) + '–' + to + ' of ' + candidates.length + '...');
+
+      try {
+        var res = await postGAS({ action: 'scoreBatch', candidates: batch, jd: jd });
+        var scored = res.candidates || [];
+        for (var k = 0; k < scored.length; k++) {
+          var r = scored[k];
+          r.seq = i + k + 1;
+          allResults.push(r);
+        }
+        log('Scored ' + allResults.length + ' / ' + candidates.length, 'ok');
+        document.getElementById('tabCount').textContent = allResults.length;
+        renderResults();   // results stream in chunk by chunk
+      } catch (be) {
+        log('Batch ' + (Math.floor(i / CHUNK_SIZE) + 1) + ' failed: ' + be.message + ' — continuing', 'err');
+      }
+    }
+
+    setProgress(allResults.length, candidates.length, 'Done — ' + allResults.length + ' candidates scored');
     setStatus('Complete', 'complete');
     renderResults();
 
-  } catch(err) {
+  } catch (err) {
     showError(err.message);
     log('Error: ' + err.message, 'err');
     setStatus('Error', 'error');
@@ -685,7 +703,6 @@ function applySearch() {
 }
 
 // ── FORMATTED XLSX EXPORT ─────────────────────────────────────────────────────
-// ── FORMATTED XLSX EXPORT ─────────────────────────────────────────────────────
 function downloadXLSX() {
   if (!allResults.length) { alert('No results to download yet.'); return; }
   if (typeof XLSX === 'undefined') { alert('Excel library not loaded. Please refresh and try again.'); return; }
@@ -700,7 +717,7 @@ function downloadXLSX() {
   var titleText    = 'Candidate Scoring – ' + jobTitleGlobal;
   var criteriaText = 'Scoring criteria derived from the Job Description: experience relevance, skill match, domain background, role-specific responsibilities, seniority alignment, strongest signal and critical gap assessed per candidate.';
 
-  // Build sheet data — Email now in column C, everything after shifts right
+  // Build sheet data — Email in column C, everything after shifts right
   var aoa = [
     [titleText,    '', '', '', '', ''],   // row 1  — title banner
     [criteriaText, '', '', '', '', ''],   // row 2  — criteria note
