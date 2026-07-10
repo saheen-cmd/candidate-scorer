@@ -106,6 +106,11 @@
   .stage-retry { background: transparent; border: 1px dashed var(--border2); border-radius: 20px; padding: 6px 13px; font-size: 12px; font-weight: 500; font-family: 'Inter', sans-serif; color: var(--accent); cursor: pointer; }
   .stage-retry:hover { background: var(--accent-bg); border-color: var(--accent); }
 
+  .jobid-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .jobid-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px 5px 12px; background: var(--accent-bg); border: 1px solid var(--accent); color: var(--accent); border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .jobid-chip-x { background: transparent; border: none; color: var(--accent); font-size: 15px; line-height: 1; cursor: pointer; padding: 0 2px; font-family: 'Inter', sans-serif; }
+  .jobid-chip-x:hover { color: var(--accent-hov); }
+
   .error-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius); padding: 11px 14px; font-size: 13px; color: #dc2626; margin-bottom: 14px; display: none; align-items: flex-start; gap: 7px; }
   .error-box.show { display: flex; }
 
@@ -152,7 +157,7 @@
   .dl-btn:hover { background: var(--accent-hov); }
 
   .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 680px; }
+  table { width: 100%; border-collapse: collapse; min-width: 780px; }
   thead tr { border-bottom: 1px solid var(--border); }
   th { padding: 11px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; background: var(--white); }
   td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; line-height: 1.5; }
@@ -162,6 +167,7 @@
   .col-num   { width: 40px; text-align: center; color: var(--muted2); font-size: 12px; }
   .col-name  { width: 165px; }
   .col-desig { width: 180px; }
+  .col-job   { width: 150px; }
   .col-stage { width: 110px; }
   .col-score { width: 70px; text-align: center; }
 
@@ -200,6 +206,7 @@
     .fg2 { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .col-desig { display: none; }
+    .col-job { display: none; }
   }
 </style>
 </head>
@@ -273,9 +280,10 @@
         <div class="section-title">Job Details</div>
         <div class="fg2">
           <div class="field">
-            <label>Job ID</label>
-            <input type="text" id="jobCode" placeholder="e.g. 5820806" oninput="updateHeader()" onchange="checkReady()">
-            <div class="field-hint">Found in the Workable URL — e.g. /backend/jobs/5820806/edit</div>
+            <label>Job ID(s)</label>
+            <input type="text" id="jobCodeInput" placeholder="Type a Job ID, press Enter to add" onkeydown="handleJobIdKeydown(event)" onblur="commitJobIdInput()">
+            <div class="jobid-chips" id="jobIdChips"></div>
+            <div class="field-hint">Found in the Workable URL — e.g. /backend/jobs/5820806/edit. Add as many as you like — candidates from every job are combined into one report.</div>
           </div>
           <div class="field">
             <label>Stages to Include</label>
@@ -334,6 +342,7 @@
                 <th class="col-num">#</th>
                 <th class="col-name">Candidate</th>
                 <th class="col-desig">Current Role</th>
+                <th class="col-job">Job Applied</th>
                 <th class="col-stage">Stage</th>
                 <th class="col-score">Score</th>
                 <th>Reason for Score</th>
@@ -362,6 +371,7 @@ var CHUNK_SIZE = 20;
 
 var allResults      = [];
 var currentFilter   = 'all';
+var jobIds          = [];  // list of Job IDs queued for scoring — combined into one report
 var jobTitleGlobal  = '';
 var availableStages = [];   // loaded live from Workable via Apps Script: [{slug, name, kind, position}]
 
@@ -490,12 +500,77 @@ function getStageLabels() {
   return labels;
 }
 
+// ── JOB ID CHIPS ───────────────────────────────────────────────────────────────
+function handleJobIdKeydown(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    commitJobIdInput();
+  } else if (e.key === 'Backspace' && !document.getElementById('jobCodeInput').value && jobIds.length) {
+    jobIds.pop();
+    renderJobIdChips();
+    updateHeader();
+    checkReady();
+  }
+}
+
+function commitJobIdInput() {
+  var input = document.getElementById('jobCodeInput');
+  if (input.value.trim()) addJobIds(input.value);
+  input.value = '';
+}
+
+function addJobIds(raw) {
+  var parts = String(raw || '').split(/[,\s]+/);
+  for (var i = 0; i < parts.length; i++) {
+    var id = parts[i].trim();
+    if (id && jobIds.indexOf(id) === -1) jobIds.push(id);
+  }
+  renderJobIdChips();
+  updateHeader();
+  checkReady();
+}
+
+function removeJobId(id) {
+  jobIds = jobIds.filter(function(j) { return j !== id; });
+  renderJobIdChips();
+  updateHeader();
+  checkReady();
+}
+
+function renderJobIdChips() {
+  var wrap = document.getElementById('jobIdChips');
+  wrap.innerHTML = '';
+  for (var i = 0; i < jobIds.length; i++) {
+    (function(id) {
+      var chip = document.createElement('span');
+      chip.className = 'jobid-chip';
+      chip.appendChild(document.createTextNode(id));
+      var x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'jobid-chip-x';
+      x.textContent = '×';
+      x.onclick = function() { removeJobId(id); };
+      chip.appendChild(x);
+      wrap.appendChild(chip);
+    })(jobIds[i]);
+  }
+}
+
 // ── UI HELPERS ────────────────────────────────────────────────────────────────
 function updateHeader() {
-  var code   = document.getElementById('jobCode').value.trim();
   var labels = getStageLabels();
-  document.getElementById('topbarJob').textContent    = code || 'Select a Job';
-  document.getElementById('pageSubtitle').textContent = code ? 'Scoring candidates for Job ID ' + code : 'Configure your job details below to begin';
+
+  if (!jobIds.length) {
+    document.getElementById('topbarJob').textContent    = 'Select a Job';
+    document.getElementById('pageSubtitle').textContent = 'Configure your job details below to begin';
+  } else if (jobIds.length === 1) {
+    document.getElementById('topbarJob').textContent    = jobIds[0];
+    document.getElementById('pageSubtitle').textContent = 'Scoring candidates for Job ID ' + jobIds[0];
+  } else {
+    document.getElementById('topbarJob').textContent    = jobIds.length + ' Jobs';
+    document.getElementById('pageSubtitle').textContent = 'Scoring candidates across ' + jobIds.length + ' Job IDs: ' + jobIds.join(', ');
+  }
+
   document.getElementById('stageSummary').textContent = labels.length
     ? labels.join(' / ')
     : 'No stages selected';
@@ -503,7 +578,7 @@ function updateHeader() {
 
 function checkReady() {
   var ok =
-    document.getElementById('jobCode').value.trim() &&
+    jobIds.length > 0 &&
     document.getElementById('jd').value.trim() &&
     getStages().length;
   document.getElementById('runBtn').disabled = !ok;
@@ -549,14 +624,18 @@ function unlockUI() {
   document.getElementById('btnText').textContent   = 'Run Scorer';
 }
 
-// ── SCORING (batched) ─────────────────────────────────────────────────────────
+// ── SCORING (multi-job fetch, then batched scoring) ───────────────────────────
 async function startScoring() {
   hideError();
   allResults = [];
 
-  var jobCode = document.getElementById('jobCode').value.trim();
-  var jd      = document.getElementById('jd').value.trim();
-  var stages  = getStages();
+  // catch any Job ID left sitting in the input, not yet committed as a chip
+  commitJobIdInput();
+
+  var jd     = document.getElementById('jd').value.trim();
+  var stages = getStages();
+
+  if (!jobIds.length) { showError('Add at least one Job ID.'); return; }
 
   document.getElementById('runBtn').disabled          = true;
   document.getElementById('spinner').style.display    = 'inline-block';
@@ -565,31 +644,56 @@ async function startScoring() {
   document.getElementById('resultsSection').classList.remove('show');
   document.getElementById('plog').innerHTML           = '';
   setStatus('Running', 'running');
-  setProgress(0, 100, 'Fetching candidate list...');
+  setProgress(0, 100, 'Fetching candidate lists...');
 
-  log('Job ID: ' + jobCode);
+  log('Job IDs: ' + jobIds.join(', '));
   log('Stage slugs: ' + stages.join(', '));
 
   try {
-    // ── Step 1: fetch the candidate list (fast, no scoring) ──────────────────
-    var list       = await postGAS({ action: 'fetchCandidates', jobCode: jobCode, stages: stages });
-    jobTitleGlobal = list.jobTitle;
-    var candidates = list.candidates || [];
+    // ── Step 1: fetch the candidate list for every Job ID, tag & combine ─────
+    var candidates = [];
+    var jobTitles  = [];
+    var failedJobs = [];
+
+    for (var j = 0; j < jobIds.length; j++) {
+      var jobCode = jobIds[j];
+      setProgress(j, jobIds.length, 'Fetching candidates — Job ' + jobCode + ' (' + (j + 1) + '/' + jobIds.length + ')...');
+      try {
+        var list  = await postGAS({ action: 'fetchCandidates', jobCode: jobCode, stages: stages });
+        var cands = list.candidates || [];
+        for (var c = 0; c < cands.length; c++) {
+          cands[c].jobId    = jobCode;
+          cands[c].jobTitle = list.jobTitle;
+        }
+        candidates = candidates.concat(cands);
+        jobTitles.push(list.jobTitle);
+        log('Job ' + jobCode + ' — ' + list.jobTitle + ': ' + cands.length + ' candidates', 'ok');
+      } catch (fe) {
+        failedJobs.push(jobCode);
+        log('Job ' + jobCode + ' failed to fetch: ' + fe.message + ' — skipping', 'err');
+      }
+    }
+
+    jobTitleGlobal = jobTitles.length > 1
+      ? jobTitles.length + ' Jobs Combined'
+      : (jobTitles[0] || 'Candidates');
 
     document.getElementById('pageTitle').textContent = jobTitleGlobal;
-    document.getElementById('topbarJob').textContent = jobTitleGlobal;
-    log('Job: ' + jobTitleGlobal, 'ok');
-    log(candidates.length + ' candidates found', 'ok');
+    document.getElementById('topbarJob').textContent = jobIds.length > 1 ? jobIds.length + ' Jobs' : (jobIds[0] || jobTitleGlobal);
+
+    log(candidates.length + ' total candidates found across ' + jobTitles.length + ' job(s)' +
+      (failedJobs.length ? ' (' + failedJobs.length + ' job ID(s) failed: ' + failedJobs.join(', ') + ')' : ''),
+      failedJobs.length ? 'err' : 'ok');
 
     if (!candidates.length) {
       setProgress(0, 0, 'No candidates found');
-      setStatus('Complete', 'complete');
+      setStatus(failedJobs.length ? 'Error' : 'Complete', failedJobs.length ? 'error' : 'complete');
       document.getElementById('tabCount').textContent = 0;
       renderResults();
       return;
     }
 
-    // ── Step 2: score in chunks ──────────────────────────────────────────────
+    // ── Step 2: score the combined pool in chunks ─────────────────────────────
     for (var i = 0; i < candidates.length; i += CHUNK_SIZE) {
       var batch = candidates.slice(i, i + CHUNK_SIZE);
       var to    = Math.min(i + CHUNK_SIZE, candidates.length);
@@ -600,8 +704,11 @@ async function startScoring() {
         var res = await postGAS({ action: 'scoreBatch', candidates: batch, jd: jd });
         var scored = res.candidates || [];
         for (var k = 0; k < scored.length; k++) {
-          var r = scored[k];
-          r.seq = i + k + 1;
+          var r    = scored[k];
+          var orig = batch[k] || {};
+          r.seq      = i + k + 1;
+          r.jobId    = r.jobId    || orig.jobId;    // preserve which job this candidate came from
+          r.jobTitle = r.jobTitle || orig.jobTitle;
           allResults.push(r);
         }
         log('Scored ' + allResults.length + ' / ' + candidates.length, 'ok');
@@ -613,7 +720,7 @@ async function startScoring() {
     }
 
     setProgress(allResults.length, candidates.length, 'Done — ' + allResults.length + ' candidates scored');
-    setStatus('Complete', 'complete');
+    setStatus(failedJobs.length ? 'Error' : 'Complete', failedJobs.length ? 'error' : 'complete');
     renderResults();
 
   } catch (err) {
@@ -671,7 +778,8 @@ function getFiltered() {
     var ms = !q ||
       r.name.toLowerCase().indexOf(q) !== -1 ||
       r.designation.toLowerCase().indexOf(q) !== -1 ||
-      r.reason.toLowerCase().indexOf(q) !== -1;
+      r.reason.toLowerCase().indexOf(q) !== -1 ||
+      (r.jobTitle || '').toLowerCase().indexOf(q) !== -1;
     return mf && ms;
   });
 }
@@ -680,7 +788,7 @@ function applySearch() {
   var filtered = getFiltered();
   if (!filtered.length) {
     document.getElementById('tableBody').innerHTML =
-      '<tr><td colspan="6"><div class="empty-state"><div class="empty-title">No candidates found</div><div class="empty-sub">Try a different filter or search term</div></div></td></tr>';
+      '<tr><td colspan="7"><div class="empty-state"><div class="empty-title">No candidates found</div><div class="empty-sub">Try a different filter or search term</div></div></td></tr>';
     return;
   }
   var rows = '';
@@ -694,6 +802,7 @@ function applySearch() {
       '<td class="col-num">' + r.seq + '</td>' +
       '<td class="col-name"><div class="cname">' + esc(r.name) + '</div><div class="cemail">' + esc(r.email) + '</div></td>' +
       '<td class="col-desig"><div class="dtitle">' + esc(title) + '</div>' + (comp ? '<div class="dcomp">' + esc(comp) + '</div>' : '') + '</td>' +
+      '<td class="col-job">' + esc(r.jobTitle || r.jobId || '—') + '</td>' +
       '<td class="col-stage"><span class="stage-tag ' + stageClass(r.stage) + '">' + esc(r.stage) + '</span></td>' +
       '<td class="col-score"><span class="score-pill ' + scoreClass(r.score) + '">' + r.score + '</span></td>' +
       '<td><span class="reason">' + esc(r.reason) + '</span></td>' +
@@ -717,33 +826,33 @@ function downloadXLSX() {
   var titleText    = 'Candidate Scoring – ' + jobTitleGlobal;
   var criteriaText = 'Scoring criteria derived from the Job Description: experience relevance, skill match, domain background, role-specific responsibilities, seniority alignment, strongest signal and critical gap assessed per candidate.';
 
-  // Build sheet data — Email in column C, everything after shifts right
+  // Build sheet data — Job Applied in column E, Reason shifts to G
   var aoa = [
-    [titleText,    '', '', '', '', ''],   // row 1  — title banner
-    [criteriaText, '', '', '', '', ''],   // row 2  — criteria note
-    ['', '', '', '', '', ''],             // row 3  — spacer
-    ['#', 'Candidate Name', 'Email', 'Current Designation', 'Score / 100', 'Reason for Score'] // row 4 header
+    [titleText,    '', '', '', '', '', ''],   // row 1  — title banner
+    [criteriaText, '', '', '', '', '', ''],   // row 2  — criteria note
+    ['', '', '', '', '', '', ''],             // row 3  — spacer
+    ['#', 'Candidate Name', 'Email', 'Current Designation', 'Job Applied', 'Score / 100', 'Reason for Score'] // row 4 header
   ];
 
   for (var i = 0; i < filtered.length; i++) {
     var r = filtered[i];
-    aoa.push([r.seq, r.name, r.email, r.designation, r.score, r.reason]);
+    aoa.push([r.seq, r.name, r.email, r.designation, (r.jobTitle || r.jobId || ''), r.score, r.reason]);
   }
 
   var dataEnd = 4 + filtered.length; // last data row (1-indexed)
-  aoa.push(['', '', '', '', '', '']);     // spacer
+  aoa.push(['', '', '', '', '', '', '']);     // spacer
   var legendRow = dataEnd + 2;
-  aoa.push(['Legend:', '65-100: Strong Fit', '40-64: Moderate / Potential Fit', '0-39: Weak Fit / Not Aligned', '', '']);
+  aoa.push(['Legend:', '65-100: Strong Fit', '40-64: Moderate / Potential Fit', '0-39: Weak Fit / Not Aligned', '', '', '']);
 
   var ws = XLSX.utils.aoa_to_sheet(aoa);
 
-  // Column widths (A–F)
-  ws['!cols'] = [{ wch:5 }, { wch:26 }, { wch:30 }, { wch:34 }, { wch:12 }, { wch:68 }];
+  // Column widths (A–G)
+  ws['!cols'] = [{ wch:5 }, { wch:26 }, { wch:30 }, { wch:32 }, { wch:24 }, { wch:12 }, { wch:60 }];
 
-  // Merges: A1:F1 and A2:F2
+  // Merges: A1:G1 and A2:G2
   ws['!merges'] = [
-    { s:{ r:0, c:0 }, e:{ r:0, c:5 } },
-    { s:{ r:1, c:0 }, e:{ r:1, c:5 } }
+    { s:{ r:0, c:0 }, e:{ r:0, c:6 } },
+    { s:{ r:1, c:0 }, e:{ r:1, c:6 } }
   ];
 
   // Row heights
@@ -772,13 +881,13 @@ function downloadXLSX() {
     alignment: { horizontal:'left', vertical:'center', wrapText:true }
   };
 
-  // Row 4 — header (A–F)
+  // Row 4 — header (A–G)
   var hdrStyle = {
     fill: { fgColor: { rgb:'1F3864' } },
     font: { bold:true, color:{ rgb:'FFFFFF' }, sz:11, name:'Arial' },
     alignment: { horizontal:'center', vertical:'center', wrapText:true }
   };
-  ['A4','B4','C4','D4','E4','F4'].forEach(function(a){ sc(a).s = hdrStyle; });
+  ['A4','B4','C4','D4','E4','F4','G4'].forEach(function(a){ sc(a).s = hdrStyle; });
 
   // Data rows
   function fillForScore(s) {
@@ -795,12 +904,13 @@ function downloadXLSX() {
     sc('B' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } };
     sc('C' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Email
     sc('D' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Designation
-    sc('E' + row).s = {
+    sc('E' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Job Applied
+    sc('F' + row).s = {
       fill: { fgColor:{ rgb: fillForScore(score) } },
       font: { bold:true, name:'Arial', sz:11 },
       alignment: { horizontal:'center', vertical:'center' }
     }; // Score
-    sc('F' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Reason
+    sc('G' + row).s = { font:{ name:'Arial', sz:10 }, alignment:{ horizontal:'left', vertical:'top', wrapText:true } }; // Reason
   }
 
   // Legend row
